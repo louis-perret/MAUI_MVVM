@@ -15,6 +15,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Stub", "Stub", "{2C607793-B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StubLib", "StubLib\StubLib.csproj", "{B01D7EF2-2D64-409A-A29A-61FB7BB7A9DB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Views", "Views\Views.csproj", "{3466E998-6FB1-4AD3-9D8B-841ADB99659B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModel", "ViewModel\ViewModel.csproj", "{C1116FCD-2B59-4EA5-9686-82F4E1CCFEC2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +41,14 @@ Global
 		{B01D7EF2-2D64-409A-A29A-61FB7BB7A9DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B01D7EF2-2D64-409A-A29A-61FB7BB7A9DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B01D7EF2-2D64-409A-A29A-61FB7BB7A9DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3466E998-6FB1-4AD3-9D8B-841ADB99659B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3466E998-6FB1-4AD3-9D8B-841ADB99659B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3466E998-6FB1-4AD3-9D8B-841ADB99659B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3466E998-6FB1-4AD3-9D8B-841ADB99659B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1116FCD-2B59-4EA5-9686-82F4E1CCFEC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1116FCD-2B59-4EA5-9686-82F4E1CCFEC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1116FCD-2B59-4EA5-9686-82F4E1CCFEC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1116FCD-2B59-4EA5-9686-82F4E1CCFEC2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
