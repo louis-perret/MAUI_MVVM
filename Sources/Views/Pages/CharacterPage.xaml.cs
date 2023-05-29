@@ -1,4 +1,6 @@
-﻿namespace Views.Pages;
+﻿using ViewModel;
+
+namespace Views.Pages;
 
 public partial class CharacterPage : ContentPage
 {

@@ -49,6 +49,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="5.2.0" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -67,8 +68,9 @@
 	  <MauiXaml Update="Pages\CharacterPage.xaml">
 	    <SubType></SubType>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\LibraryChampions.xaml">
-	    <SubType></SubType>
-	  </MauiXaml>
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\ViewModel\ViewModel.csproj" />
+	  <ProjectReference Include="..\StubLib\StubLib.csproj" />
 	</ItemGroup>
 </Project>

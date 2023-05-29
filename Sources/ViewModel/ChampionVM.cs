@@ -1,5 +1,7 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text;
 using Model;
 
 namespace ViewModel;
@@ -22,14 +24,27 @@ public class ChampionVM : INotifyPropertyChanged
         }
     }
 
-    public String Image
+    public byte[] Image
     {
-        get => Modele.Image.Base64;
+        get => Convert.FromBase64String(Modele.Image.Base64);
         set
         {
-            if(!string.IsNullOrWhiteSpace(value) && !Image.Equals(value))
+            if(value != null && value.Count() > 0)
             {
-                Modele.Image.Base64 = value;
+                Modele.Image.Base64 = Convert.ToBase64String(value);
+                OnPropertyChanged();
+            }
+        }
+    }
+
+    public byte[] Icon
+    {
+        get => Convert.FromBase64String(Modele.Icon);
+        set
+        {
+            if (value != null && value.Count() > 0)
+            {
+                Modele.Icon = Convert.ToBase64String(value);
                 OnPropertyChanged();
             }
         }

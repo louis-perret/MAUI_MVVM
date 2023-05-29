@@ -35,6 +35,7 @@ namespace ViewModel
 		{
 			DataManager = dataManager;
 			Champions = new ReadOnlyObservableCollection<ChampionVM>(_champions);
+			
 		}
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -51,7 +52,7 @@ namespace ViewModel
 			{
 				_champions.Add(new ChampionVM(champion));
 			}
-		}
+        }
     }
 }
 
