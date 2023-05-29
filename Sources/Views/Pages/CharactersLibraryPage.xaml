@@ -12,10 +12,10 @@
 
     <VerticalStackLayout>
         <Label Text="Chercher par : "/>
-        <ListView ItemsSource="{Binding Champions}">
+        <ListView ItemsSource="{Binding ChampionManagerVM.Champions}">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <ImageCell ImageSource="{Binding Icon, Converter={StaticResource ByteArrayToImageSourceConverter}}" Text="{Binding Name}"  Detail="{Binding Class}">
+                    <ImageCell ImageSource="{Binding Icon, Converter={StaticResource ByteArrayToImageSourceConverter}}" Text="{Binding Name}"  Detail="{Binding Class}" Command="{Binding ShowCharacterDetail}">
                     </ImageCell>
                 </DataTemplate>
             </ListView.ItemTemplate>

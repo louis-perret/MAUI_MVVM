@@ -2,13 +2,22 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Views.Pages.CharacterPage"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              Title="CharacterPage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+
     <VerticalStackLayout>
-        <Image Source="{Binding Image}"/>
+        <Image Source="{Binding Image,Converter={StaticResource ByteArrayToImageSourceConverter}}" VerticalOptions="Start"/>
         <HorizontalStackLayout>
             <Label Text="{Binding Name}"/>
             <Label Text="{Binding Class}"/>
         </HorizontalStackLayout>
-        <Label Text="{Binding Description}"/>
+        <Label Text="{Binding Bio}"/>
     </VerticalStackLayout>
 </ContentPage>

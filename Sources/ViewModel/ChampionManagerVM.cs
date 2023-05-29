@@ -14,6 +14,20 @@ namespace ViewModel
 
 		private IDataManager DataManager { get; set; }
 
+		private ChampionVM _selectedChampionVM;
+
+		public ChampionVM SelectedChampionVM
+		{
+			get => _selectedChampionVM;
+			set
+			{
+				if(value != null)
+				{
+					_selectedChampionVM = value;
+					// OnPropertyChanged();
+				}
+			}
+		}
 		private int _pageNumber = 0;
 
 		public int PageNumber
@@ -46,13 +60,24 @@ namespace ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-		private async Task LoadChampions()
+		public DeleguateNotifyChangementOfSelectedChampion NotifyChangementOfSelectedChampion { get; set; }
+        public delegate void DeleguateNotifyChangementOfSelectedChampion();
+
+        private async Task LoadChampions()
 		{
 			foreach (var champion in await DataManager.ChampionsMgr.GetItems(PageNumber, NbElementsMax))
 			{
-				_champions.Add(new ChampionVM(champion));
+				var c = new ChampionVM(champion);
+				c.SelectedChampion = SelectedChampionChanged;
+                _champions.Add(c);
 			}
         }
+
+		public void SelectedChampionChanged(ChampionVM champion)
+		{
+			SelectedChampionVM = champion;
+			NotifyChangementOfSelectedChampion();
+		}
     }
 }
 

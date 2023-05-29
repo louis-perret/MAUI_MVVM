@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Windows.Input;
 using Model;
 
 namespace ViewModel;
@@ -76,6 +77,10 @@ public class ChampionVM : INotifyPropertyChanged
         }
     }
 
+    public SetSelectedChampion SelectedChampion { get; set; }
+
+    public delegate void SetSelectedChampion(ChampionVM value);
+
     public ChampionVM(Champion modele)
     {
         Modele = modele;
@@ -86,6 +91,13 @@ public class ChampionVM : INotifyPropertyChanged
     protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    public ICommand ShowCharacterDetail => new Command(ShowCharacterDetailEvent);
+
+    private void ShowCharacterDetailEvent()
+    {
+        SelectedChampion(this);
     }
 }
 

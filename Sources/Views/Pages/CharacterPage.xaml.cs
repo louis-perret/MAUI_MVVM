@@ -5,10 +5,12 @@ namespace Views.Pages;
 public partial class CharacterPage : ContentPage
 {
 
-	public ChampionVM ChampionVM { get; set; }
+	public ChampionManagerVM ChampionManagerVM { get; set; }
 
-	public CharacterPage()
+	public CharacterPage(ChampionManagerVM championManagerVM)
 	{
 		InitializeComponent();
+		ChampionManagerVM = championManagerVM;
+		BindingContext = ChampionManagerVM.SelectedChampionVM;
 	}
 }
