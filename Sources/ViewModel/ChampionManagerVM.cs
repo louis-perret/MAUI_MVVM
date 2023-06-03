@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 using Model;
 
 namespace ViewModel
@@ -14,20 +15,6 @@ namespace ViewModel
 
 		private IDataManager DataManager { get; set; }
 
-		private ChampionVM _selectedChampionVM;
-
-		public ChampionVM SelectedChampionVM
-		{
-			get => _selectedChampionVM;
-			set
-			{
-				if(value != null)
-				{
-					_selectedChampionVM = value;
-					// OnPropertyChanged();
-				}
-			}
-		}
 		private int _pageNumber = 0;
 
 		public int PageNumber
@@ -43,14 +30,19 @@ namespace ViewModel
             }
 		}
 
-		public int NbElementsMax => 5;
+		public int NbNumberMaxPage => _champions.Count / NbElementsMax;
+
+        public int NbElementsMax => 5;
+
+		public ICommand SetCurrentPageCommand { get; private set; }
 
 		public ChampionManagerVM(IDataManager dataManager)
 		{
 			DataManager = dataManager;
 			Champions = new ReadOnlyObservableCollection<ChampionVM>(_champions);
-			
-		}
+			SetCurrentPageCommand = new Command(
+				execute: (object arg) => SetCurrentPage((string)arg));
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -60,23 +52,19 @@ namespace ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-		public DeleguateNotifyChangementOfSelectedChampion NotifyChangementOfSelectedChampion { get; set; }
-        public delegate void DeleguateNotifyChangementOfSelectedChampion();
-
         private async Task LoadChampions()
 		{
+			_champions.Clear();
 			foreach (var champion in await DataManager.ChampionsMgr.GetItems(PageNumber, NbElementsMax))
 			{
 				var c = new ChampionVM(champion);
-				c.SelectedChampion = SelectedChampionChanged;
                 _champions.Add(c);
 			}
         }
 
-		public void SelectedChampionChanged(ChampionVM champion)
+		private void SetCurrentPage(string number)
 		{
-			SelectedChampionVM = champion;
-			NotifyChangementOfSelectedChampion();
+			PageNumber = PageNumber + Convert.ToInt32(number);
 		}
     }
 }

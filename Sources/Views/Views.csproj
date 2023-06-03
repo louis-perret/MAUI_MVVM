@@ -60,9 +60,11 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <None Remove="Pages\" />
+	  <None Remove="ContentViews\" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Pages\" />
+	  <Folder Include="ContentViews\" />
 	</ItemGroup>
 	<ItemGroup>
 	  <MauiXaml Update="Pages\CharacterPage.xaml">

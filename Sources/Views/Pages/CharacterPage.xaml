@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Views.Pages.CharacterPage"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:contentviews="clr-namespace:Views.ContentViews"
              Title="CharacterPage">
 
     <ContentPage.Resources>
@@ -12,12 +13,40 @@
     </ContentPage.Resources>
 
 
-    <VerticalStackLayout>
-        <Image Source="{Binding Image,Converter={StaticResource ByteArrayToImageSourceConverter}}" VerticalOptions="Start"/>
-        <HorizontalStackLayout>
-            <Label Text="{Binding Name}"/>
-            <Label Text="{Binding Class}"/>
-        </HorizontalStackLayout>
-        <Label Text="{Binding Bio}"/>
-    </VerticalStackLayout>
+    <ScrollView>
+        
+        <VerticalStackLayout>
+            <Grid>
+                <Image Source="{Binding Image,Converter={StaticResource ByteArrayToImageSourceConverter}}" VerticalOptions="Start" Aspect="AspectFill"/>
+            </Grid>
+            <VerticalStackLayout Margin="15">
+                <Grid ColumnDefinitions="auto,*,auto" >
+                    <Label Text="{Binding Name}" FontSize="Title"/>
+                    <Label Text="{Binding Class}" FontSize="Title" Grid.Column="2"/>
+                </Grid>
+                <Label Text="{Binding Bio}" Margin="0,10,0,0"/>
+                <Label Text="Caractéristiques" FontSize="Title" Margin="0,10,0,0"/>
+                <CollectionView ItemsSource="{Binding Characteristics}">
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical"
+                            Span="3" HorizontalItemSpacing="10" VerticalItemSpacing="10"/>
+                    </CollectionView.ItemsLayout>
+
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                             <Frame BorderColor="Black">
+                                <VerticalStackLayout HorizontalOptions="Center">
+                                    <Label 
+                                        Text="{Binding Key}" HorizontalOptions="Center"/>
+                                    <Label 
+                                        Text="{Binding Value}" HorizontalOptions="Center"/>
+                                </VerticalStackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
+

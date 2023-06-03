@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -69,7 +70,7 @@ public class ChampionVM : INotifyPropertyChanged
         get => Modele.Bio;
         set
         {
-            if(!string.IsNullOrWhiteSpace(value) && !Bio.Equals(value))
+            if (!string.IsNullOrWhiteSpace(value) && !Bio.Equals(value))
             {
                 Modele.Bio = value;
                 OnPropertyChanged();
@@ -77,13 +78,19 @@ public class ChampionVM : INotifyPropertyChanged
         }
     }
 
-    public SetSelectedChampion SelectedChampion { get; set; }
+    public ReadOnlyObservableCollection<KeyValuePair<string, int>> Characteristics { get; private set; }
 
-    public delegate void SetSelectedChampion(ChampionVM value);
+    private ObservableCollection<KeyValuePair<string, int>> _characteristics;
 
     public ChampionVM(Champion modele)
     {
         Modele = modele;
+        _characteristics = new ObservableCollection<KeyValuePair<string, int>>();
+        foreach(var c in Modele.Characteristics)
+        {
+            _characteristics.Add(c);
+        }
+        Characteristics = new ReadOnlyObservableCollection<KeyValuePair<string, int>>(_characteristics);
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
@@ -91,13 +98,6 @@ public class ChampionVM : INotifyPropertyChanged
     protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-
-    public ICommand ShowCharacterDetail => new Command(ShowCharacterDetailEvent);
-
-    private void ShowCharacterDetailEvent()
-    {
-        SelectedChampion(this);
     }
 }
 

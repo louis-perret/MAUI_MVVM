@@ -10,15 +10,34 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <VerticalStackLayout>
-        <Label Text="Chercher par : "/>
-        <ListView ItemsSource="{Binding ChampionManagerVM.Champions}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ImageCell ImageSource="{Binding Icon, Converter={StaticResource ByteArrayToImageSourceConverter}}" Text="{Binding Name}"  Detail="{Binding Class}" Command="{Binding ShowCharacterDetail}">
-                    </ImageCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </VerticalStackLayout>
+    <Grid RowDefinitions="*,auto">
+        <VerticalStackLayout>
+            <Label Text="Chercher par : "/>
+            <ListView ItemsSource="{Binding Champions}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid RowDefinitions="*,*" ColumnDefinitions="*,5*">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="ImageCell_Tapped" CommandParameter="{Binding}"/>
+                                </Grid.GestureRecognizers>
+                                
+                                <Image Source="{Binding Icon, Converter={StaticResource ByteArrayToImageSourceConverter}}" Grid.RowSpan="2" Aspect="AspectFit"/>
+                                <Label Text="{Binding Name}" Grid.Column="1"/>
+                                <Label Text="{Binding Class}" Grid.Column="1" Grid.Row="1"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </VerticalStackLayout>
+        <HorizontalStackLayout Grid.Row="2" HorizontalOptions="Center">
+            <Button Text="&lt;" TextColor="Black" BackgroundColor="{StaticResource Gray100}" Command="{Binding SetCurrentPageCommand}" CommandParameter="-1"/>
+            <HorizontalStackLayout VerticalOptions="Center" Margin="5,0,5,0">
+                <Label Text="{Binding PageNumber, StringFormat='0/'}" FontSize="Large"/>
+                <Label Text="{Binding NbNumberMaxPage}" FontSize="Large"/>
+            </HorizontalStackLayout>
+            <Button Text="&gt;" TextColor="Black" BackgroundColor="{StaticResource Primary}" Command="{Binding SetCurrentPageCommand}" CommandParameter="1"/>
+         </HorizontalStackLayout>
+    </Grid>
 </ContentPage>
