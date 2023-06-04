@@ -1,4 +1,6 @@
-﻿using System.Collections.Immutable;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.Numerics;
 using System.Text;
@@ -9,7 +11,7 @@ public class Champion : IEquatable<Champion>
     public string Name
     {
         get => name;
-        private init
+        set
         {
             if(string.IsNullOrWhiteSpace(value))
             {
@@ -19,7 +21,7 @@ public class Champion : IEquatable<Champion>
             name = value;
         }
     }
-    private readonly string name = null!;
+    private string name = null!;
 
     public string Bio
     {

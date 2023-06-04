@@ -17,7 +17,13 @@ public partial class CharactersLibraryPage : ContentPage
 
     async void ImageCell_Tapped(System.Object sender, Microsoft.Maui.Controls.TappedEventArgs e)
     {
-        await Navigation.PushAsync(new CharacterPage((ChampionVM)e.Parameter));
+        ChampionManagerVM.CurrentChampionVM = (ChampionVM)e.Parameter;
+        await Navigation.PushAsync(new CharacterPage(ChampionManagerVM));
     }
 
+    async void OnClickAddNewChampion(System.Object sender, Microsoft.Maui.Controls.TappedEventArgs e)
+    {
+        ChampionManagerVM.IsNewChampion = true;
+        await Navigation.PushAsync(new NewChampionPage(ChampionManagerVM));
+    }
 }

@@ -9,9 +9,42 @@ namespace ViewModel
 {
 	public class ChampionManagerVM : INotifyPropertyChanged
 	{
+		private ChampionVM _championVM;
+
+		public ChampionVM CurrentChampionVM
+		{
+			get => _championVM;
+			set
+			{
+				if(value != null)
+				{
+					_championVM = value;
+					OnPropertyChanged();
+				}
+				else
+				{
+					_championVM = new ChampionVM();
+				}
+			}
+		}
 
 		public ReadOnlyObservableCollection<ChampionVM> Champions { get; private set; }
 		private ObservableCollection<ChampionVM> _champions = new ObservableCollection<ChampionVM>();
+
+		private bool _isNewChampion = false;
+
+		public bool IsNewChampion
+		{
+			get => _isNewChampion;
+			set
+			{
+				if (value)
+				{
+					CurrentChampionVM = null;
+				}
+				_isNewChampion = value;
+			}
+		}
 
 		private IDataManager DataManager { get; set; }
 
@@ -35,6 +68,7 @@ namespace ViewModel
         public int NbElementsMax => 5;
 
 		public ICommand SetCurrentPageCommand { get; private set; }
+		public ICommand EditCurrentChampionCommand { get; private set; }
 
 		public ChampionManagerVM(IDataManager dataManager)
 		{
@@ -42,6 +76,8 @@ namespace ViewModel
 			Champions = new ReadOnlyObservableCollection<ChampionVM>(_champions);
 			SetCurrentPageCommand = new Command(
 				execute: (object arg) => SetCurrentPage((string)arg));
+            EditCurrentChampionCommand = new Command(
+                execute: () => EditCurrentChampion());
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -66,6 +102,15 @@ namespace ViewModel
 		{
 			PageNumber = PageNumber + Convert.ToInt32(number);
 		}
+
+		private void EditCurrentChampion()
+		{
+			if (IsNewChampion)
+			{
+				_champions.Add(CurrentChampionVM);
+			}
+		}
+		
     }
 }
 

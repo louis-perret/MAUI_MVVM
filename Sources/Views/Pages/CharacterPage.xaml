@@ -45,6 +45,16 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
+                <Label Text="Compétences" FontSize="Title" Margin="0,10,0,0"/>
+                <ListView ItemsSource="{Binding Skills}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                            <contentviews:SkillCell Name="{Binding Name}" Description="{Binding Description}" Type="{Binding Type}"/>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </VerticalStackLayout>
         </VerticalStackLayout>
     </ScrollView>

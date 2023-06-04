@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Views.Pages.NewChampionPage"
+             Title="NewChampionPage">
+
+    <VerticalStackLayout>
+        <Label Text="Nouveau Champion"/>
+        <Grid RowDefinitions="auto,auto,auto" ColumnDefinitions="auto, *">
+            <Label Text="Nom :"/>
+            <Entry Text="{Binding Name}" Placeholder="Name..." Grid.Column="1"/>
+
+            <Label Text="Bio :" Grid.Row="1"/>
+            <Editor Text="{Binding Bio}" Placeholder="Description..." Grid.Row="1" Grid.Column="1"/>
+
+            <Label Text="Caractéristiques :" Grid.Row="2"/>
+            <VerticalStackLayout Grid.Row="2" Grid.Column="1">
+                 <CollectionView ItemsSource="{Binding Characteristics}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                    <Grid ColumnDefinitions="*, auto">
+                                        <Label 
+                                            Text="{Binding Key}" HorizontalOptions="Center"/>
+                                        <Label 
+                                            Text="{Binding Value}" HorizontalOptions="Center" Grid.Column="1"/>
+                                    </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                <HorizontalStackLayout>
+                    <Entry Text="{Binding NameCharacteristics}" Placeholder="Name..."/>
+                    <Entry Text="{Binding ValueCharacteristics}" Placeholder="Value..."/>
+                    <Button Text="+" Command="{Binding AddCharacteristicsCommand}"/>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+        </Grid>
+        <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+            <Button Text="Ajouter"/>
+            <Button Text="Annuler"/>
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>
