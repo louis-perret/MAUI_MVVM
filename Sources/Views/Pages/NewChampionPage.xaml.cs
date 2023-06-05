@@ -15,4 +15,15 @@ public partial class NewChampionPage : ContentPage
         InitializeComponent();
     }
 
+    async void AddChampion(System.Object sender, Microsoft.Maui.Controls.TappedEventArgs e)
+    {
+        ChampionManagerVM.AddChampion();
+        await Navigation.PopAsync();
+    }
+
+    async void CancelAddChampion(System.Object sender, Microsoft.Maui.Controls.TappedEventArgs e)
+    {
+        ChampionManagerVM.AddChampion(true);
+        await Navigation.PopAsync();
+    }
 }

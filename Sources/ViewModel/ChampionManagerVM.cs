@@ -67,15 +67,20 @@ namespace ViewModel
 
         public int NbElementsMax => 5;
 
-		public ICommand SetCurrentPageCommand { get; private set; }
+		public ICommand SetNextPageCommand { get; private set; }
+		public ICommand SetPreviousPageCommand { get; private set; }
 		public ICommand EditCurrentChampionCommand { get; private set; }
 
 		public ChampionManagerVM(IDataManager dataManager)
 		{
 			DataManager = dataManager;
 			Champions = new ReadOnlyObservableCollection<ChampionVM>(_champions);
-			SetCurrentPageCommand = new Command(
-				execute: (object arg) => SetCurrentPage((string)arg));
+			SetNextPageCommand = new Command(
+				execute: () => PageNumber += 1,
+				canExecute: () => { return PageNumber < NbNumberMaxPage; });
+            SetPreviousPageCommand = new Command(
+                execute: () => PageNumber -= 1,
+                canExecute: () => { return PageNumber > 0; });
             EditCurrentChampionCommand = new Command(
                 execute: () => EditCurrentChampion());
         }
@@ -84,7 +89,12 @@ namespace ViewModel
 
         protected async virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
-			if (propertyName.Equals(nameof(PageNumber))) await LoadChampions();
+			if (propertyName.Equals(nameof(PageNumber)))
+			{
+				await LoadChampions();
+                (SetNextPageCommand as Command).ChangeCanExecute();
+                (SetPreviousPageCommand as Command).ChangeCanExecute();
+            }
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
@@ -98,7 +108,7 @@ namespace ViewModel
 			}
         }
 
-		private void SetCurrentPage(string number)
+		private void SetCurrentPage(int number)
 		{
 			PageNumber = PageNumber + Convert.ToInt32(number);
 		}
@@ -110,7 +120,12 @@ namespace ViewModel
 				_champions.Add(CurrentChampionVM);
 			}
 		}
-		
+
+		public void AddChampion(bool isCanceled = false)
+		{
+			if (!isCanceled) 
+				DataManager.ChampionsMgr.AddItem(CurrentChampionVM.Modele);
+			CurrentChampionVM = null;
+		}
     }
 }
-

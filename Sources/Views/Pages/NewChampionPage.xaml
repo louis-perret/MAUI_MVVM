@@ -10,8 +10,14 @@
             <Label Text="Nom :"/>
             <Entry Text="{Binding Name}" Placeholder="Name..." Grid.Column="1"/>
 
+            <Label Text="Icon : " Grid.Row="1"/>
+            <Image Source="{Binding Icon}" Grid.Row="1" Grid.Column="1" WidthRequest="50" HeightRequest="50"/>
+
+            <Label Text="Image : " Grid.Row="2"/>
+            <Image Source="{Binding Image}" Grid.Row="2" Grid.Column="1" WidthRequest="150" HeightRequest="150"/>
+
             <Label Text="Bio :" Grid.Row="1"/>
-            <Editor Text="{Binding Bio}" Placeholder="Description..." Grid.Row="1" Grid.Column="1"/>
+            <Editor Text="{Binding Bio}" Placeholder="Description..." Grid.Row="1" Grid.Column="1" AutoSize="TextChanges"/>
 
             <Label Text="Caractéristiques :" Grid.Row="2"/>
             <VerticalStackLayout Grid.Row="2" Grid.Column="1">
@@ -36,8 +42,16 @@
             </VerticalStackLayout>
         </Grid>
         <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
-            <Button Text="Ajouter"/>
-            <Button Text="Annuler"/>
+            <Button Text="Ajouter">
+                <Button.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="AddChampion"/>
+                </Button.GestureRecognizers>
+            </Button>
+            <Button Text="Annuler">
+                <Button.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="CancelAddChampion"/>
+                </Button.GestureRecognizers>
+            </Button>
         </HorizontalStackLayout>
     </VerticalStackLayout>
 </ContentPage>

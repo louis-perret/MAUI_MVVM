@@ -12,7 +12,7 @@ namespace ViewModel;
 // All the code in this file is included in all platforms.
 public class ChampionVM : INotifyPropertyChanged
 {
-    private Champion Modele { get; set; }
+    internal Champion Modele { get; set; }
 
     public String Name
     {
