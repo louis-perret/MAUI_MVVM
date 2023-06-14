@@ -34,6 +34,11 @@ public class ChampionVM : INotifyPropertyChanged
         {
             if(value != null && value.Count() > 0)
             {
+               /* byte[] test = new byte[value.Count()];
+                foreach(var element in value)
+                {
+                    test.Append(element);
+                }*/
                 Modele.Image.Base64 = Convert.ToBase64String(value);
                 OnPropertyChanged();
             }

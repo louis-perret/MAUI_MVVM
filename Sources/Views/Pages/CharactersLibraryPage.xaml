@@ -14,36 +14,35 @@
     <Grid RowDefinitions="*,auto">
         <VerticalStackLayout>
             <Label Text="Chercher par : "/>
-            <ListView ItemsSource="{Binding Champions}">
+            <ListView ItemsSource="{Binding ManagerVM.Champions}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <Grid RowDefinitions="*,*" ColumnDefinitions="*,5*">
-                                <Grid.GestureRecognizers>
-                                    <TapGestureRecognizer Tapped="ImageCell_Tapped" CommandParameter="{Binding}"/>
-                                </Grid.GestureRecognizers>
-                                
-                                <Image Source="{Binding Icon, Converter={StaticResource ByteArrayToImageSourceConverter}}" Grid.RowSpan="2" Aspect="AspectFit"/>
-                                <Label Text="{Binding Name}" Grid.Column="1"/>
-                                <Label Text="{Binding Class}" Grid.Column="1" Grid.Row="1"/>
-                            </Grid>
+                            <SwipeView>
+                                <SwipeView.RightItems>
+                                    <SwipeItem Text="Supprimer" BackgroundColor="Red"/>
+                                    <SwipeItem Text="Modifier" BackgroundColor="LightGrey"/>
+                                </SwipeView.RightItems>
+                                 <Grid RowDefinitions="*,*" ColumnDefinitions="*,5*">
+                                    <Image Source="{Binding Icon, Converter={StaticResource ByteArrayToImageSourceConverter}}" Grid.RowSpan="2" Aspect="AspectFit"/>
+                                    <Label Text="{Binding Name}" Grid.Column="1"/>
+                                    <Label Text="{Binding Class}" Grid.Column="1" Grid.Row="1"/>
+                                 </Grid>
+                            </SwipeView>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
         </VerticalStackLayout>
         <HorizontalStackLayout Grid.Row="2" HorizontalOptions="Center">
-            <Button Text="&lt;" TextColor="Black" BackgroundColor="{StaticResource Primary}" Command="{Binding SetPreviousPageCommand}"/>
+            <Button Text="&lt;" TextColor="Black" BackgroundColor="{StaticResource Primary}" Command="{Binding ManagerVM.SetPreviousPageCommand}"/>
             <HorizontalStackLayout VerticalOptions="Center" Margin="5,0,5,0">
-                <Label Text="{Binding PageNumber}" FontSize="Large"/>
+                <Label Text="{Binding ManagerVM.PageNumber}" FontSize="Large"/>
                 <Label Text="/" FontSize="Large"/>
-                <Label Text="{Binding NbNumberMaxPage}" FontSize="Large"/>
+                <Label Text="{Binding ManagerVM.NbNumberMaxPage}" FontSize="Large"/>
             </HorizontalStackLayout>
-            <Button Text="&gt;" TextColor="Black" BackgroundColor="{StaticResource Primary}" Command="{Binding SetNextPageCommand}"/>
-            <Button Text="Ajouter Champion">
-                <Button.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="OnClickAddNewChampion"/>
-                </Button.GestureRecognizers>
+            <Button Text="&gt;" TextColor="Black" BackgroundColor="{StaticResource Primary}" Command="{Binding ManagerVM.SetNextPageCommand}"/>
+            <Button Text="Ajouter Champion" Command="{Binding ShowAddChampionPageCommand}">
             </Button>
          </HorizontalStackLayout>
     </Grid>

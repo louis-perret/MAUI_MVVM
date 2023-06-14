@@ -5,25 +5,24 @@ namespace Views.Pages;
 public partial class NewChampionPage : ContentPage
 {
 
-    public ChampionManagerVM ChampionManagerVM;
+    public AppVM AppVM { get; private set; }
 
-    
-    public NewChampionPage(ChampionManagerVM championManagerVM)
+    public NewChampionPage(AppVM appVM)
 	{
-        ChampionManagerVM = championManagerVM;
-        BindingContext = ChampionManagerVM.CurrentChampionVM;
+        this.AppVM = appVM;
+        BindingContext = AppVM;
         InitializeComponent();
     }
 
     async void AddChampion(System.Object sender, Microsoft.Maui.Controls.TappedEventArgs e)
     {
-        ChampionManagerVM.AddChampion();
+        AppVM.ManagerVM.AddChampion();
         await Navigation.PopAsync();
     }
 
     async void CancelAddChampion(System.Object sender, Microsoft.Maui.Controls.TappedEventArgs e)
     {
-        ChampionManagerVM.AddChampion(true);
+        AppVM.ManagerVM.AddChampion(true);
         await Navigation.PopAsync();
     }
 }

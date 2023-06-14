@@ -5,17 +5,17 @@ namespace Views.Pages;
 
 public partial class CharactersLibraryPage : ContentPage
 {
-    public ChampionManagerVM ChampionManagerVM { get; private set; }
+    public AppVM AppVM { get; private set; }
 
-    public CharactersLibraryPage(ChampionManagerVM championManagerVM)
+    public CharactersLibraryPage(AppVM appVM)
     {
         InitializeComponent();
-        ChampionManagerVM = championManagerVM;
-        ChampionManagerVM.PageNumber = 0;
-        BindingContext = ChampionManagerVM;
+        AppVM = appVM;
+        AppVM.Navigation = this.Navigation;
+        BindingContext = AppVM;
     }
 
-    async void ImageCell_Tapped(System.Object sender, Microsoft.Maui.Controls.TappedEventArgs e)
+    /*async void ImageCell_Tapped(System.Object sender, Microsoft.Maui.Controls.TappedEventArgs e)
     {
         ChampionManagerVM.CurrentChampionVM = (ChampionVM)e.Parameter;
         await Navigation.PushAsync(new CharacterPage(ChampionManagerVM));
@@ -25,5 +25,5 @@ public partial class CharactersLibraryPage : ContentPage
     {
         ChampionManagerVM.IsNewChampion = true;
         await Navigation.PushAsync(new NewChampionPage(ChampionManagerVM));
-    }
+    }*/
 }

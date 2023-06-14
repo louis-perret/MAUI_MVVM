@@ -19,6 +19,7 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<IDataManager, StubData>();
         builder.Services.AddSingleton<ChampionManagerVM>();
+        builder.Services.AddSingleton<AppVM>();
         builder.Services.AddSingleton<CharactersLibraryPage>();
 
 
