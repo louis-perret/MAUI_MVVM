@@ -33,7 +33,7 @@
 
 
             <Label Text="Bio :" Grid.Row="3"/>
-            <Editor Text="{Binding Bio}" Placeholder="Description..." Grid.Row="3" Grid.Column="1" AutoSize="TextChanges"/>
+            <Editor Text="{Binding ManagerVM.CurrentChampionVM.Bio}" Placeholder="Description..." Grid.Row="3" Grid.Column="1" AutoSize="TextChanges"/>
 
             <Label Text="Caractéristiques :" Grid.Row="4"/>
             <VerticalStackLayout Grid.Row="4" Grid.Column="1">
@@ -60,12 +60,12 @@
         <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
             <Button Text="Ajouter">
                 <Button.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="AddChampion"/>
+                    <TapGestureRecognizer Command="{Binding AddChampionCommand}"/>
                 </Button.GestureRecognizers>
             </Button>
             <Button Text="Annuler">
                 <Button.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="CancelAddChampion"/>
+                    <TapGestureRecognizer Command="{Binding CancelAddingAChampionCommand}"/>
                 </Button.GestureRecognizers>
             </Button>
         </HorizontalStackLayout>

@@ -16,8 +16,10 @@ namespace Views
         public ICommand ShowAddChampionPageCommand { get; private set; }
         public ICommand ShowDetailChampionPageCommand { get; private set; }
         public ICommand ShowFilePickerCommand { get; private set; }
+        public ICommand AddChampionCommand { get; private set; }
+        public ICommand CancelAddingAChampionCommand { get; private set; }
 
-		public AppVM(ChampionManagerVM managerVM)
+        public AppVM(ChampionManagerVM managerVM)
 		{
 			ManagerVM = managerVM;
             ManagerVM.PageNumber = 0;
@@ -27,6 +29,10 @@ namespace Views
                 execute: (object arg) => ShowDetailChampionPage((ChampionVM)arg));
             ShowFilePickerCommand = new Command(
                execute: (object arg) => LoadImageFile((string)arg));
+            AddChampionCommand = new Command(
+               execute: () => AddChampion());
+            CancelAddingAChampionCommand = new Command(
+               execute: () => CancelAddChampion());
         }
 
         private async void ShowDetailChampionPage(ChampionVM champion)
@@ -66,6 +72,18 @@ namespace Views
             {
                 ManagerVM.CurrentChampionVM.Image = bytes;
             }
+        }
+
+        async void AddChampion()
+        {
+            ManagerVM.AddChampion();
+            await Navigation.PopAsync();
+        }
+
+        async void CancelAddChampion()
+        {
+            ManagerVM.AddChampion(true);
+            await Navigation.PopAsync();
         }
     }
 }

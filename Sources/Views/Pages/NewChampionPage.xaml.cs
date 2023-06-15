@@ -13,16 +13,4 @@ public partial class NewChampionPage : ContentPage
         BindingContext = AppVM;
         InitializeComponent();
     }
-
-    async void AddChampion(System.Object sender, Microsoft.Maui.Controls.TappedEventArgs e)
-    {
-        AppVM.ManagerVM.AddChampion();
-        await Navigation.PopAsync();
-    }
-
-    async void CancelAddChampion(System.Object sender, Microsoft.Maui.Controls.TappedEventArgs e)
-    {
-        AppVM.ManagerVM.AddChampion(true);
-        await Navigation.PopAsync();
-    }
 }
