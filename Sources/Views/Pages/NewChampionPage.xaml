@@ -15,7 +15,7 @@
 
     <VerticalStackLayout>
         <Label Text="Nouveau Champion"/>
-        <Grid RowDefinitions="auto,auto,auto,auto,auto" ColumnDefinitions="auto, *">
+        <Grid RowDefinitions="auto,auto,auto,auto,auto,auto" ColumnDefinitions="auto, *">
             <Label Text="Nom :"/>
             <Entry Text="{Binding ManagerVM.CurrentChampionVM.Name}" Placeholder="Name..." Grid.Column="1"/>
 
@@ -35,8 +35,27 @@
             <Label Text="Bio :" Grid.Row="3"/>
             <Editor Text="{Binding ManagerVM.CurrentChampionVM.Bio}" Placeholder="Description..." Grid.Row="3" Grid.Column="1" AutoSize="TextChanges"/>
 
-            <Label Text="Caractéristiques :" Grid.Row="4"/>
-            <VerticalStackLayout Grid.Row="4" Grid.Column="1">
+            <Label Text="Class : " Grid.Row="4"/>
+            <CollectionView SelectionMode="Single" ItemsSource="{Binding ManagerVM.CurrentChampionVM.AllChampionClass}" Grid.Row="4" Grid.Column="1"
+                            SelectedItem="{Binding ManagerVM.CurrentChampionVM.Class}">
+                <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical"
+                            Span="3" HorizontalItemSpacing="5" VerticalItemSpacing="10"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                           <Border StrokeShape="RoundRectangle 40,2,2,2">
+                                <VerticalStackLayout HorizontalOptions="Center">
+                                    <Label 
+                                        Text="{Binding}" HorizontalOptions="Center" FontSize="Subtitle"/>
+                                </VerticalStackLayout>
+                            </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <Label Text="Caractéristiques :" Grid.Row="5"/>
+            <VerticalStackLayout Grid.Row="5" Grid.Column="1">
                  <CollectionView ItemsSource="{Binding ManagerVM.CurrentChampionVM.Characteristics}">
                         <CollectionView.ItemTemplate>
                             <DataTemplate>

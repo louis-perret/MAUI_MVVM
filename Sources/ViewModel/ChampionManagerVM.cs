@@ -135,7 +135,7 @@ namespace ViewModel
 		{
 			if (champion != null)
 			{
-				DataManager.ChampionsMgr.DeleteItem(champion.Modele);
+                await DataManager.ChampionsMgr.DeleteItem(champion.Modele);
 				_champions.Remove(champion);
 				await LoadChampions();
 			}

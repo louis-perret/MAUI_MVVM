@@ -12,6 +12,9 @@ namespace ViewModel;
 // All the code in this file is included in all platforms.
 public class ChampionVM : INotifyPropertyChanged
 {
+    private static ObservableCollection<string> _allChampionClass = new ObservableCollection<string>(Enum.GetValues(typeof(ChampionClass)).Cast<ChampionClass>().ToList().Select(c => c.ToString()).ToList());
+    public ReadOnlyObservableCollection<string> AllChampionClass { get; private set; } = new ReadOnlyObservableCollection<string>(_allChampionClass);
+
     private Champion _modele;
 
     internal Champion Modele
@@ -77,7 +80,7 @@ public class ChampionVM : INotifyPropertyChanged
         get => Modele.Class.ToString();
         set
         {
-            if (Class.Equals(value))
+            if (!Class.Equals(value))
             {
                 Modele.Class = Enum.GetValues(typeof(ChampionClass)).Cast<ChampionClass>().ToList().Where(c => c.ToString() == value).First();
                 OnPropertyChanged();
@@ -141,6 +144,7 @@ public class ChampionVM : INotifyPropertyChanged
 
     public ICommand AddCharacteristicsCommand { get; private set; }
     public ICommand EditChampionCommand { get; private set; }
+    public ICommand SetChampionClassCommmand { get; private set; }
 
     public ChampionVM(Champion modele = null)
     {
@@ -159,6 +163,8 @@ public class ChampionVM : INotifyPropertyChanged
                 execute: () => AddCharacteristics());
         EditChampionCommand = new Command(
                 execute: () => EditFromCopy());
+        SetChampionClassCommmand = new Command(
+            execute: (object arg) => Class = arg as string);
     }
     
     public event PropertyChangedEventHandler PropertyChanged;
@@ -222,6 +228,7 @@ public class ChampionVM : INotifyPropertyChanged
             _skills.Add(new SkillVM(skill));
         }
     }
+
 
     public override bool Equals(object obj)
     {
