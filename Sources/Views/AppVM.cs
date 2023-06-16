@@ -47,13 +47,13 @@ namespace Views
         private async void ShowDetailChampionPage(ChampionVM champion)
         {
             ManagerVM.CurrentChampionVM = champion;
-            await Navigation.PushAsync(new CharacterPage(this));
+            await Navigation.PushAsync(new CharacterPage());
         }
 
         private async void ShowAddChampionPage()
 		{
             ManagerVM.IsNewChampion = true;
-            await Navigation.PushAsync(new NewChampionPage(this));
+            await Navigation.PushAsync(new NewChampionPage());
         }
 
         private async void ShowEditChampionPage(ChampionVM? champion = null)

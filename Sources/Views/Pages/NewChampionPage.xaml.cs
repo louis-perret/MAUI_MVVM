@@ -5,12 +5,9 @@ namespace Views.Pages;
 public partial class NewChampionPage : ContentPage
 {
 
-    public AppVM AppVM { get; private set; }
-
-    public NewChampionPage(AppVM appVM)
+    public NewChampionPage()
 	{
-        this.AppVM = appVM;
-        BindingContext = AppVM;
+        BindingContext = (Application.Current as App).AppVM;
         InitializeComponent();
     }
 }

@@ -2,10 +2,13 @@
 
 public partial class App : Application
 {
-	public App()
+
+    public AppVM AppVM { get; private set; }
+
+    public App(AppVM appVM)
 	{
 		InitializeComponent();
-
+		AppVM = appVM;
 		MainPage = new AppShell();
 	}
 }

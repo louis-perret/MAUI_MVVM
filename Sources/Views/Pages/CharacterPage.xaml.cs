@@ -5,12 +5,9 @@ namespace Views.Pages;
 public partial class CharacterPage : ContentPage
 {
 
-    public AppVM AppVM { get; private set; }
-
-    public CharacterPage(AppVM appVM)
+    public CharacterPage()
 	{
 		InitializeComponent();
-		AppVM = appVM;
-		BindingContext = AppVM;
+		BindingContext = (Application.Current as App).AppVM;
 	}
 }
