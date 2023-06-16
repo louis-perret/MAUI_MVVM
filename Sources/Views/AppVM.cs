@@ -29,7 +29,7 @@ namespace Views
             ShowAddChampionPageCommand = new Command(
                 execute: () => ShowAddChampionPage());
             ShowEditChampionPageCommand = new Command(
-                execute: () => ShowEditChampionPage());
+                execute: (object arg) => ShowEditChampionPage(arg as ChampionVM));
             ShowDetailChampionPageCommand = new Command(
                 execute: (object arg) => ShowDetailChampionPage((ChampionVM)arg));
             ShowFilePickerCommand = new Command(
@@ -56,8 +56,12 @@ namespace Views
             await Navigation.PushAsync(new NewChampionPage(this));
         }
 
-        private async void ShowEditChampionPage()
+        private async void ShowEditChampionPage(ChampionVM? champion = null)
         {
+            if(champion != null) // si == null => aucun champion afficher dans le détail
+            {
+                ManagerVM.CurrentChampionVM = champion;
+            }
             await Navigation.PushAsync(new EditingChampionPage(this));
         }
 
@@ -82,27 +86,36 @@ namespace Views
             }
         }
 
-        async void AddChampion()
+        private async void AddChampion()
         {
             ManagerVM.AddChampion();
             await Navigation.PopAsync();
         }
 
-        async void EditChampion()
+        private async void EditChampion()
         {
             ManagerVM.CurrentChampionVM.EditFromCopy();
             await Navigation.PopAsync();
         }
 
-        void CancelAddChampion()
+        private void CancelAddChampion()
         {
             ManagerVM.AddChampion(true);
             NavigateToBack();
         }
 
-        async void NavigateToBack()
+        private async void NavigateToBack()
         {
+            ManagerVM.CurrentChampionVM = null;
             await Navigation.PopAsync();
+        }
+
+        public void DeleteChampion(ChampionVM champion, bool isCancelled)
+        {
+            if (!isCancelled)
+            {
+                ManagerVM.DeleteChampionCommand.Execute(champion);
+            }
         }
     }
 }

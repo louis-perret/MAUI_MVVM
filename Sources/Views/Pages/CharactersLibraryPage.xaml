@@ -21,8 +21,10 @@
                         <ViewCell>
                             <SwipeView>
                                 <SwipeView.RightItems>
-                                    <SwipeItem Text="Supprimer" BackgroundColor="Red"/>
-                                    <SwipeItem Text="Modifier" BackgroundColor="LightGrey"/>
+                                    <SwipeItem Text="Supprimer" BackgroundColor="Red" Command="{Binding BindingContext.ManagerVM.DeleteChampionCommand,
+                                            Source={x:Reference LibraryPage}}" CommandParameter="{Binding}" />
+                                    <SwipeItem Text="Modifier" BackgroundColor="LightGrey" Command="{Binding BindingContext.ShowEditChampionPageCommand,
+                                            Source={x:Reference LibraryPage}}" CommandParameter="{Binding}"/>
                                 </SwipeView.RightItems>
                                  <Grid RowDefinitions="*,*" ColumnDefinitions="*,5*">
                                     <Image Source="{Binding Icon, Converter={StaticResource ByteArrayToImageSourceConverter}}" Grid.RowSpan="2" Aspect="AspectFit"/>

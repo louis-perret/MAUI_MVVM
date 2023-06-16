@@ -26,4 +26,10 @@ public partial class CharactersLibraryPage : ContentPage
         ChampionManagerVM.IsNewChampion = true;
         await Navigation.PushAsync(new NewChampionPage(ChampionManagerVM));
     }*/
+
+    /*private async Task DeleteChampionAsync(ChampionVM champion)
+    {
+        bool answer = await DisplayAlert("Attention", "Ëtes-vous sûr(e) de vouloir supprimer le champion ?", "Oui", "Non");
+        AppVM.DeleteChampion(champion, answer);
+    }*/
 }

@@ -222,5 +222,10 @@ public class ChampionVM : INotifyPropertyChanged
             _skills.Add(new SkillVM(skill));
         }
     }
+
+    public override bool Equals(object obj)
+    {
+        return obj is ChampionVM vm && this.Modele.Equals(vm.Modele);
+    }
 }
 

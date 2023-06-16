@@ -70,8 +70,9 @@ namespace ViewModel
 		public ICommand SetNextPageCommand { get; private set; }
 		public ICommand SetPreviousPageCommand { get; private set; }
 		public ICommand EditCurrentChampionCommand { get; private set; }
+        public ICommand DeleteChampionCommand { get; private set; }
 
-		public ChampionManagerVM(IDataManager dataManager)
+        public ChampionManagerVM(IDataManager dataManager)
 		{
 			DataManager = dataManager;
 			Champions = new ReadOnlyObservableCollection<ChampionVM>(_champions);
@@ -83,6 +84,8 @@ namespace ViewModel
                 canExecute: () => { return PageNumber > 0; });
             EditCurrentChampionCommand = new Command(
                 execute: () => EditCurrentChampion());
+            DeleteChampionCommand = new Command(
+                execute: (object arg) => DeleteChampionAsync(arg as ChampionVM));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -126,6 +129,16 @@ namespace ViewModel
 			if (!isCanceled) 
 				DataManager.ChampionsMgr.AddItem(CurrentChampionVM.Modele);
 			CurrentChampionVM = null;
+		}
+
+		private async Task DeleteChampionAsync(ChampionVM champion)
+		{
+			if (champion != null)
+			{
+				DataManager.ChampionsMgr.DeleteItem(champion.Modele);
+				_champions.Remove(champion);
+				await LoadChampions();
+			}
 		}
     }
 }
