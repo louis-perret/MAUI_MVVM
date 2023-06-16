@@ -14,10 +14,13 @@ namespace Views
 		public INavigation Navigation { get; set; }
 
         public ICommand ShowAddChampionPageCommand { get; private set; }
+        public ICommand ShowEditChampionPageCommand { get; private set; }
         public ICommand ShowDetailChampionPageCommand { get; private set; }
         public ICommand ShowFilePickerCommand { get; private set; }
         public ICommand AddChampionCommand { get; private set; }
-        public ICommand CancelAddingAChampionCommand { get; private set; }
+        public ICommand CancelAddChampionCommand { get; private set; }
+        public ICommand EditChampionCommand { get; private set; }
+        public ICommand NavigateToBackCommand { get; private set; }
 
         public AppVM(ChampionManagerVM managerVM)
 		{
@@ -25,20 +28,26 @@ namespace Views
             ManagerVM.PageNumber = 0;
             ShowAddChampionPageCommand = new Command(
                 execute: () => ShowAddChampionPage());
+            ShowEditChampionPageCommand = new Command(
+                execute: () => ShowEditChampionPage());
             ShowDetailChampionPageCommand = new Command(
                 execute: (object arg) => ShowDetailChampionPage((ChampionVM)arg));
             ShowFilePickerCommand = new Command(
                execute: (object arg) => LoadImageFile((string)arg));
             AddChampionCommand = new Command(
                execute: () => AddChampion());
-            CancelAddingAChampionCommand = new Command(
+            CancelAddChampionCommand = new Command(
                execute: () => CancelAddChampion());
+            EditChampionCommand = new Command(
+               execute: () => EditChampion());
+            NavigateToBackCommand = new Command(
+               execute: () => NavigateToBack());
         }
 
         private async void ShowDetailChampionPage(ChampionVM champion)
         {
             ManagerVM.CurrentChampionVM = champion;
-            await Navigation.PushAsync(new CharacterPage(ManagerVM));
+            await Navigation.PushAsync(new CharacterPage(this));
         }
 
         private async void ShowAddChampionPage()
@@ -47,10 +56,9 @@ namespace Views
             await Navigation.PushAsync(new NewChampionPage(this));
         }
 
-        private void ShowEditingChampionPage()
+        private async void ShowEditChampionPage()
         {
-            /*ManagerVM.IsNewChampion = true;
-            await Navigation.PushAsync(new NewChampionPage(ManagerVM));¨*/
+            await Navigation.PushAsync(new EditingChampionPage(this));
         }
 
         private async void LoadImageFile(string targetProperty)
@@ -80,9 +88,20 @@ namespace Views
             await Navigation.PopAsync();
         }
 
-        async void CancelAddChampion()
+        async void EditChampion()
+        {
+            ManagerVM.CurrentChampionVM.EditFromCopy();
+            await Navigation.PopAsync();
+        }
+
+        void CancelAddChampion()
         {
             ManagerVM.AddChampion(true);
+            NavigateToBack();
+        }
+
+        async void NavigateToBack()
+        {
             await Navigation.PopAsync();
         }
     }

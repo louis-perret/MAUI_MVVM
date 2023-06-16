@@ -8,7 +8,7 @@ namespace ViewModel
 	public class SkillVM : INotifyPropertyChanged
     {
 
-		private Skill Modele { get; set; }
+		internal Skill Modele { get; set; }
 
         public string Type
         {

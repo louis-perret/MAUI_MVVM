@@ -65,7 +65,7 @@
             </Button>
             <Button Text="Annuler">
                 <Button.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding CancelAddingAChampionCommand}"/>
+                    <TapGestureRecognizer Command="{Binding AddChampionCommand}"/>
                 </Button.GestureRecognizers>
             </Button>
         </HorizontalStackLayout>

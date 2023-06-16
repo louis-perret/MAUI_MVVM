@@ -4,7 +4,8 @@
              x:Class="Views.Pages.CharacterPage"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:contentviews="clr-namespace:Views.ContentViews"
-             Title="CharacterPage">
+             Title="CharacterPage"
+             x:Name="CharacterPageBack">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -12,8 +13,11 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
+     <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Modifier" Command="{Binding ShowEditChampionPageCommand}"/>
+    </ContentPage.ToolbarItems>
 
-    <ScrollView>
+    <ScrollView BindingContext="{Binding ManagerVM.CurrentChampionVM}">
         
         <VerticalStackLayout>
             <Grid>

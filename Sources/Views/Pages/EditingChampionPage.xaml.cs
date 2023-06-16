@@ -4,12 +4,13 @@ namespace Views.Pages;
 
 public partial class EditingChampionPage : ContentPage
 {
-    public ChampionManagerVM ChampionManagerVM { get; set; }
+    public AppVM AppVM { get; private set; }
 
-    public EditingChampionPage(ChampionManagerVM championManagerVM)
+
+    public EditingChampionPage(AppVM appVM)
 	{
-		InitializeComponent();
-        ChampionManagerVM = championManagerVM;
-        BindingContext = ChampionManagerVM.CurrentChampionVM;
+        this.AppVM = appVM;
+        BindingContext = AppVM.ManagerVM.CurrentChampionVM.CopyForEdition;
+        InitializeComponent();
     }
 }

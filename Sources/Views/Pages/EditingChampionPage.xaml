@@ -2,11 +2,73 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Views.Pages.EditingChampionPage"
-             Title="EditingChampionPage">
-    <VerticalStackLayout>
-        <Label 
-            Text=""
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             Title="EditingChampionPage"
+             x:Name="EditionPage">
+
+     <ContentPage.Resources>
+        <ResourceDictionary>
+            <toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout>
+            <Label Text="Nouveau Champion"/>
+            <Grid RowDefinitions="auto,auto,auto,auto,auto" ColumnDefinitions="auto, *">
+                <Label Text="Nom :"/>
+                <Entry Text="{Binding Name}" Placeholder="Name..." Grid.Column="1"/>
+
+                <Label Text="Icon : " Grid.Row="1"/>
+                <HorizontalStackLayout Grid.Row="1" Grid.Column="1">
+                    <Image Source="{Binding Icon, Converter={StaticResource ByteArrayToImageSourceConverter}}"  Grid.Row="1" Grid.Column="1" WidthRequest="50" HeightRequest="50"/>
+                    <Button Text="Load Icon" Command="{Binding AppVM.ShowFilePickerCommand, Source={x:Reference EditionPage}}" CommandParameter="icon"/>
+                </HorizontalStackLayout>
+
+                <Label Text="Image : " Grid.Row="2"/>
+                <HorizontalStackLayout Grid.Row="2" Grid.Column="1">
+                    <Image Source="{Binding Image, Converter={StaticResource ByteArrayToImageSourceConverter}}"  WidthRequest="150" HeightRequest="150"/>
+                    <Button Text="Load Image" Command="{Binding AppVM.ShowFilePickerCommand, Source={x:Reference EditionPage}}" CommandParameter="image"/>
+                </HorizontalStackLayout>
+
+
+                <Label Text="Bio :" Grid.Row="3"/>
+                <Editor Text="{Binding Bio}" Placeholder="Description..." Grid.Row="3" Grid.Column="1" AutoSize="TextChanges"/>
+
+                <Label Text="Caractéristiques :" Grid.Row="4"/>
+                <VerticalStackLayout Grid.Row="4" Grid.Column="1">
+                     <CollectionView ItemsSource="{Binding Characteristics}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                        <Grid ColumnDefinitions="*, auto">
+                                            <Label 
+                                                Text="{Binding Key}" HorizontalOptions="Center"/>
+                                            <Label 
+                                                Text="{Binding Value}" HorizontalOptions="Center" Grid.Column="1"/>
+                                        </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                    <HorizontalStackLayout>
+                        <Entry Text="{Binding  NameCharacteristics}" Placeholder="Name..."/>
+                        <Entry Text="{Binding  ValueCharacteristics}" Placeholder="Value..."/>
+                        <Button Text="+" Command="{Binding AddCharacteristicsCommand}"/>
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Grid>
+            <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                <Button Text="Modifier">
+                    <Button.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding AppVM.EditChampionCommand, Source={x:Reference EditionPage}}"/>
+                    </Button.GestureRecognizers>
+                </Button>
+                <Button Text="Annuler">
+                    <Button.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding AppVM.NavigateToBackCommand, Source={x:Reference EditionPage}}"/>
+                    </Button.GestureRecognizers>
+                </Button>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

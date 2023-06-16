@@ -12,14 +12,28 @@ namespace ViewModel;
 // All the code in this file is included in all platforms.
 public class ChampionVM : INotifyPropertyChanged
 {
-    internal Champion Modele { get; set; }
+    private Champion _modele;
+
+    internal Champion Modele
+    {
+        get => _modele;
+        set
+        {
+            if (_modele != value)
+            {
+                _modele = value;
+                InitObservableleCollections();
+                OnPropertyChanged();
+            }
+        }
+    }
 
     public String Name
     {
         get => Modele.Name;
         set
         {
-            if(value != null && !Name.Equals(value))
+            if (value != null && !Name.Equals(value))
             {
                 Modele.Name = value;
                 OnPropertyChanged();
@@ -32,13 +46,13 @@ public class ChampionVM : INotifyPropertyChanged
         get => Convert.FromBase64String(Modele.Image.Base64);
         set
         {
-            if(value != null && value.Count() > 0)
+            if (value != null && value.Count() > 0)
             {
-               /* byte[] test = new byte[value.Count()];
-                foreach(var element in value)
-                {
-                    test.Append(element);
-                }*/
+                /* byte[] test = new byte[value.Count()];
+                 foreach(var element in value)
+                 {
+                     test.Append(element);
+                 }*/
                 Modele.Image.Base64 = Convert.ToBase64String(value);
                 OnPropertyChanged();
             }
@@ -63,7 +77,7 @@ public class ChampionVM : INotifyPropertyChanged
         get => Modele.Class.ToString();
         set
         {
-            if(Class.Equals(value))
+            if (Class.Equals(value))
             {
                 Modele.Class = Enum.GetValues(typeof(ChampionClass)).Cast<ChampionClass>().ToList().Where(c => c.ToString() == value).First();
                 OnPropertyChanged();
@@ -100,7 +114,6 @@ public class ChampionVM : INotifyPropertyChanged
         set => _value = value;
     }
 
-
     public ReadOnlyObservableCollection<KeyValuePair<string, int>> Characteristics { get; private set; }
 
     private ObservableCollection<KeyValuePair<string, int>> _characteristics;
@@ -109,7 +122,25 @@ public class ChampionVM : INotifyPropertyChanged
 
     private ObservableCollection<SkillVM> _skills;
 
+    private ChampionVM? _copy;
+
+    public ChampionVM? CopyForEdition
+    {
+        get
+        {
+            if (_copy == null) _copy = CreateCopy();
+            return _copy;
+        }
+        set
+        {
+            _copy = value;
+            OnPropertyChanged();
+        }
+        
+    }
+
     public ICommand AddCharacteristicsCommand { get; private set; }
+    public ICommand EditChampionCommand { get; private set; }
 
     public ChampionVM(Champion modele = null)
     {
@@ -121,21 +152,15 @@ public class ChampionVM : INotifyPropertyChanged
         else
         {
             Modele = modele;
-            foreach (var c in Modele.Characteristics)
-            {
-                _characteristics.Add(c);
-            }
-           
-            foreach (var skill in Modele.Skills)
-            {
-                _skills.Add(new SkillVM(skill));
-            }
+            InitObservableleCollections();
         }
 
         AddCharacteristicsCommand = new Command(
                 execute: () => AddCharacteristics());
+        EditChampionCommand = new Command(
+                execute: () => EditFromCopy());
     }
-
+    
     public event PropertyChangedEventHandler PropertyChanged;
 
     protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
@@ -147,8 +172,49 @@ public class ChampionVM : INotifyPropertyChanged
     {
         if (!Modele.Characteristics.ContainsKey(NameCharacteristics))
         {
-            Modele.AddCharacteristics(new Tuple<string, int>[] { new Tuple<string, int>(NameCharacteristics, Convert.ToInt32(ValueCharacteristics))});
+            Modele.AddCharacteristics(new Tuple<string, int>[] { new Tuple<string, int>(NameCharacteristics, Convert.ToInt32(ValueCharacteristics)) });
             _characteristics.Add(new KeyValuePair<string, int>(NameCharacteristics, Convert.ToInt32(ValueCharacteristics)));
+        }
+    }
+
+    private ChampionVM CreateCopy()
+    {
+        Champion copy = new Champion(Modele.Name, Modele.Class, Modele.Icon, Modele.Image.Base64, Modele.Bio);
+        foreach(var characteristic in this.Characteristics)
+        {
+            copy.AddCharacteristics(new Tuple<string, int>(characteristic.Key, characteristic.Value));
+        }
+        foreach (var skill in this.Skills)
+        {
+            copy.AddSkill(skill.Modele);
+        }
+        return new ChampionVM(copy);
+    }
+
+    public void EditFromCopy()
+    {
+        Name = CopyForEdition.Name;
+        Image = CopyForEdition.Image;
+        Icon = CopyForEdition.Icon;
+        Class = CopyForEdition.Class;
+        Bio = CopyForEdition.Bio;
+        Characteristics = CopyForEdition.Characteristics;
+        Skills = CopyForEdition.Skills;
+        CopyForEdition = null;
+    }
+
+    private void InitObservableleCollections()
+    {
+        _characteristics.Clear();
+        foreach (var c in Modele.Characteristics)
+        {
+            _characteristics.Add(c);
+        }
+
+        _skills.Clear();
+        foreach (var skill in Modele.Skills)
+        {
+            _skills.Add(new SkillVM(skill));
         }
     }
 }
