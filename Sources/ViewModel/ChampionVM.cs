@@ -179,7 +179,7 @@ public class ChampionVM : INotifyPropertyChanged
 
     private ChampionVM CreateCopy()
     {
-        Champion copy = new Champion(Modele.Name, Modele.Class, Modele.Icon, Modele.Image.Base64, Modele.Bio);
+        Champion copy = new Champion(Modele.Name , Modele.Class, Modele.Icon, Modele.Image.Base64, Modele.Bio);
         foreach(var characteristic in this.Characteristics)
         {
             copy.AddCharacteristics(new Tuple<string, int>(characteristic.Key, characteristic.Value));
@@ -198,7 +198,12 @@ public class ChampionVM : INotifyPropertyChanged
         Icon = CopyForEdition.Icon;
         Class = CopyForEdition.Class;
         Bio = CopyForEdition.Bio;
-        Characteristics = CopyForEdition.Characteristics;
+        foreach (var c in CopyForEdition.Characteristics)
+        {
+            NameCharacteristics = c.Key;
+            ValueCharacteristics = Convert.ToString(c.Value);
+            AddCharacteristics();
+        }
         Skills = CopyForEdition.Skills;
         CopyForEdition = null;
     }
