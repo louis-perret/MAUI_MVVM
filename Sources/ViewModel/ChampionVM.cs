@@ -143,6 +143,7 @@ public class ChampionVM : INotifyPropertyChanged
     }
 
     public ICommand AddCharacteristicsCommand { get; private set; }
+    public ICommand RemoveCharacteristicsCommand { get; private set; }
     public ICommand EditChampionCommand { get; private set; }
     public ICommand SetChampionClassCommmand { get; private set; }
 
@@ -156,11 +157,12 @@ public class ChampionVM : INotifyPropertyChanged
         else
         {
             Modele = modele;
-            InitObservableleCollections();
         }
 
         AddCharacteristicsCommand = new Command(
                 execute: () => AddCharacteristics());
+        RemoveCharacteristicsCommand = new Command(
+                execute: (object arg) => RemoveCharacteristics(arg as string));
         EditChampionCommand = new Command(
                 execute: () => EditFromCopy());
         SetChampionClassCommmand = new Command(
@@ -180,6 +182,16 @@ public class ChampionVM : INotifyPropertyChanged
         {
             Modele.AddCharacteristics(new Tuple<string, int>[] { new Tuple<string, int>(NameCharacteristics, Convert.ToInt32(ValueCharacteristics)) });
             _characteristics.Add(new KeyValuePair<string, int>(NameCharacteristics, Convert.ToInt32(ValueCharacteristics)));
+        }
+    }
+
+    private void RemoveCharacteristics(string name)
+    {
+        if (Modele.Characteristics.ContainsKey(name))
+        {
+            Modele.RemoveCharacteristics(name);
+            var element = _characteristics.Where(c => c.Key.Equals(name)).FirstOrDefault();
+            _characteristics.Remove(element);
         }
     }
 
@@ -204,8 +216,14 @@ public class ChampionVM : INotifyPropertyChanged
         Icon = CopyForEdition.Icon;
         Class = CopyForEdition.Class;
         Bio = CopyForEdition.Bio;
-        foreach (var c in CopyForEdition.Characteristics)
+        foreach(var c in _characteristics)
         {
+            Modele.RemoveCharacteristics(c.Key);
+        }
+        _characteristics.Clear();
+        foreach(var c in CopyForEdition.Characteristics)
+        {
+
             NameCharacteristics = c.Key;
             ValueCharacteristics = Convert.ToString(c.Value);
             AddCharacteristics();

@@ -58,11 +58,12 @@
                      <CollectionView ItemsSource="{Binding Characteristics}">
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
-                                        <Grid ColumnDefinitions="*, auto">
+                                        <Grid ColumnDefinitions="*, auto, auto" ColumnSpacing="10" Margin="10,0,10,0">
                                             <Label 
-                                                Text="{Binding Key}" HorizontalOptions="Center"/>
+                                                Text="{Binding Key}" HorizontalOptions="Start"/>
                                             <Label 
-                                                Text="{Binding Value}" HorizontalOptions="Center" Grid.Column="1"/>
+                                                Text="{Binding Value}" Grid.Column="1"/>
+                                            <ImageButton Grid.Column="2" MaximumWidthRequest="20" HeightRequest="20" Source="trash.png" Command="{Binding AppVM.ManagerVM.CurrentChampionVM.CopyForEdition.RemoveCharacteristicsCommand, Source={x:Reference EditionPage}}" CommandParameter="{Binding Key}"/>
                                         </Grid>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>

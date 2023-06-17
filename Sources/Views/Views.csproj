@@ -61,10 +61,13 @@
 	<ItemGroup>
 	  <None Remove="Pages\" />
 	  <None Remove="ContentViews\" />
+	  <None Remove="Resources\Images\Icons\" />
+	  <None Remove="Resources\Images\Icons\trash.svg" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Pages\" />
 	  <Folder Include="ContentViews\" />
+	  <Folder Include="Resources\Images\Icons\" />
 	</ItemGroup>
 	<ItemGroup>
 	  <MauiXaml Update="Pages\CharacterPage.xaml">
@@ -74,5 +77,8 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\ViewModel\ViewModel.csproj" />
 	  <ProjectReference Include="..\StubLib\StubLib.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <MauiImage Include="Resources\Images\Icons\trash.svg" />
 	</ItemGroup>
 </Project>
