@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Views.Pages.NewChampionPage"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:contentviews="clr-namespace:Views.ContentViews"
              Title="NewChampionPage"
+             x:Name="AdditionPage"
             >
 
     
@@ -15,7 +17,7 @@
 
     <VerticalStackLayout>
         <Label Text="Nouveau Champion"/>
-        <Grid RowDefinitions="auto,auto,auto,auto,auto,auto" ColumnDefinitions="auto, *">
+        <Grid RowDefinitions="auto,auto,auto,auto,auto,auto,auto" ColumnDefinitions="auto, *">
             <Label Text="Nom :"/>
             <Entry Text="{Binding ManagerVM.CurrentChampionVM.Name}" Placeholder="Name..." Grid.Column="1"/>
 
@@ -75,6 +77,23 @@
                     <Button Text="+" Command="{Binding ManagerVM.CurrentChampionVM.AddCharacteristicsCommand}"/>
                 </HorizontalStackLayout>
             </VerticalStackLayout>
+
+             <VerticalStackLayout Grid.Row="6">
+                    <Label Text="Compétences" Margin="0,10,0,0"/>
+                    <Button Text="+" Command="{Binding ShowPopSkillCommand, Source={x:Reference AdditionPage}}"/>
+                </VerticalStackLayout>
+                <ListView Grid.Row="6" Grid.Column="1" ItemsSource="{Binding ManagerVM.CurrentChampionVM.Skills}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid ColumnDefinitions="*,auto" ColumnSpacing="10">
+                                    <contentviews:SkillCell Name="{Binding Name}" Description="{Binding Description}" Type="{Binding Type}"/>
+                                    <ImageButton Grid.Column="1" MaximumWidthRequest="20" HeightRequest="20" Source="trash.png" Command="{Binding AppVM.ManagerVM.CurrentChampionVM.RemoveSkillCommand, Source={x:Reference AdditionPage}}" CommandParameter="{Binding}"/>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
         </Grid>
         <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
             <Button Text="Ajouter">

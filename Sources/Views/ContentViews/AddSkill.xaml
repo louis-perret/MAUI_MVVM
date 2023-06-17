@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="Views.ContentViews.AddSkill"
+             >
+    <VerticalStackLayout HorizontalOptions="Center" Margin="20">
+        <HorizontalStackLayout>
+            <Label Text="Nom" Margin="0,0,10,0"/>
+            <Entry Text="{Binding Name}"/>
+        </HorizontalStackLayout>
+        <HorizontalStackLayout>
+            <Label Text="Nom" Margin="0,0,10,0"/>
+            <Editor Text="{Binding Description}"/>
+        </HorizontalStackLayout>
+        <HorizontalStackLayout>
+            <Label Text="Type" Margin="0,0,10,0"/>
+            <Picker ItemsSource="{Binding AllSkillType}" SelectedItem="{Binding Type}"/>
+        </HorizontalStackLayout>
+
+        <HorizontalStackLayout>
+             <Button Text="Yes" 
+                Clicked="Confirm" />
+             <Button Text="No"
+                Clicked="Cancel" />
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
+</toolkit:Popup>

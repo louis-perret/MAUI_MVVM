@@ -58,10 +58,11 @@ namespace Views
 
         private async void ShowEditChampionPage(ChampionVM? champion = null)
         {
-            if(champion != null) // si == null => aucun champion afficher dans le détail
+            if(champion != null) // si == null => aucun champion n'a été affiché dans le Detail
             {
                 ManagerVM.CurrentChampionVM = champion;
             }
+            ManagerVM.CurrentChampionVM.IsEditing = true;
             await Navigation.PushAsync(new EditingChampionPage(this));
         }
 

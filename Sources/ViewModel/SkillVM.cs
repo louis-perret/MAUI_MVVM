@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Model;
@@ -7,8 +8,10 @@ namespace ViewModel
 {
 	public class SkillVM : INotifyPropertyChanged
     {
+        private static ObservableCollection<string> _allSkillType = new ObservableCollection<string>(Enum.GetValues(typeof(SkillType)).Cast<SkillType>().ToList().Select(s => s.ToString()).ToList());
+        public ReadOnlyObservableCollection<string> AllSkillType { get; private set; } = new ReadOnlyObservableCollection<string>(_allSkillType);
 
-		internal Skill Modele { get; set; }
+        internal Skill Modele { get; set; }
 
         public string Type
         {
@@ -28,8 +31,15 @@ namespace ViewModel
             get => Modele.Name;
             set 
             {
-                Modele.Name = value;
-                OnPropertyChanged();
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    Modele.Name = "_"; // car un skill ne peut pas avoir un nom vide
+                }
+                else
+                {
+                    Modele.Name = value;
+                    OnPropertyChanged();
+                }
             }
         }
 
@@ -41,6 +51,11 @@ namespace ViewModel
                 Modele.Description = value;
                 OnPropertyChanged();
             }
+        }
+
+        public SkillVM() : this(new Skill("Name", SkillType.Unknown))
+        {
+            
         }
 
         public SkillVM(Skill modele)

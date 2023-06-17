@@ -125,27 +125,25 @@ public class ChampionVM : INotifyPropertyChanged
 
     private ObservableCollection<SkillVM> _skills;
 
-    private ChampionVM? _copy;
+    public ChampionVM? CopyForEdition { get; private set; }
 
-    public ChampionVM? CopyForEdition
+    private bool _isEditing = false;
+    public bool IsEditing
     {
-        get
-        {
-            if (_copy == null) _copy = CreateCopy();
-            return _copy;
-        }
+        get => _isEditing;
         set
         {
-            _copy = value;
-            OnPropertyChanged();
+            if (value) CopyForEdition = CreateCopy();
+            else CopyForEdition = null;
         }
-        
     }
 
     public ICommand AddCharacteristicsCommand { get; private set; }
     public ICommand RemoveCharacteristicsCommand { get; private set; }
     public ICommand EditChampionCommand { get; private set; }
     public ICommand SetChampionClassCommmand { get; private set; }
+    public ICommand AddSkillCommand { get; private set; }
+    public ICommand RemoveSkillCommand { get; private set; }
 
     public ChampionVM(Champion modele = null)
     {
@@ -167,6 +165,10 @@ public class ChampionVM : INotifyPropertyChanged
                 execute: () => EditFromCopy());
         SetChampionClassCommmand = new Command(
             execute: (object arg) => Class = arg as string);
+        AddSkillCommand = new Command(
+            execute: (object arg) => AddSkill(arg as SkillVM));
+        RemoveSkillCommand = new Command(
+            execute: (object arg) => RemoveSkill(arg as SkillVM));
     }
     
     public event PropertyChangedEventHandler PropertyChanged;
@@ -182,6 +184,8 @@ public class ChampionVM : INotifyPropertyChanged
         {
             Modele.AddCharacteristics(new Tuple<string, int>[] { new Tuple<string, int>(NameCharacteristics, Convert.ToInt32(ValueCharacteristics)) });
             _characteristics.Add(new KeyValuePair<string, int>(NameCharacteristics, Convert.ToInt32(ValueCharacteristics)));
+            NameCharacteristics = string.Empty;
+            ValueCharacteristics = "0";
         }
     }
 
@@ -192,6 +196,24 @@ public class ChampionVM : INotifyPropertyChanged
             Modele.RemoveCharacteristics(name);
             var element = _characteristics.Where(c => c.Key.Equals(name)).FirstOrDefault();
             _characteristics.Remove(element);
+        }
+    }
+
+    private void AddSkill(SkillVM skill)
+    {
+        if(skill != null)
+        {
+            Modele.AddSkill(skill.Modele);
+            _skills.Add(skill);
+        }
+    }
+
+    private void RemoveSkill(SkillVM skill)
+    {
+        if(skill != null)
+        {
+            Modele.RemoveSkill(skill.Modele);
+            _skills.Remove(skill);
         }
     }
 
@@ -228,8 +250,16 @@ public class ChampionVM : INotifyPropertyChanged
             ValueCharacteristics = Convert.ToString(c.Value);
             AddCharacteristics();
         }
-        Skills = CopyForEdition.Skills;
-        CopyForEdition = null;
+        foreach (var s in Modele.Skills)
+        {
+            Modele.RemoveSkill(s);
+        }
+        _skills.Clear();
+        foreach (var s in CopyForEdition.Skills)
+        {
+            AddSkill(s);
+        }
+        IsEditing = false;
     }
 
     private void InitObservableleCollections()
