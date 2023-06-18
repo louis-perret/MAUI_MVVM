@@ -37,7 +37,7 @@ namespace Views
             AddChampionCommand = new Command(
                execute: () => AddChampion());
             CancelAddChampionCommand = new Command(
-               execute: () => CancelAddChampion());
+               execute: () => CancelAddChampionAsync());
             EditChampionCommand = new Command(
                execute: () => EditChampion());
             NavigateToBackCommand = new Command(
@@ -89,7 +89,7 @@ namespace Views
 
         private async void AddChampion()
         {
-            ManagerVM.AddChampion();
+            await ManagerVM.AddChampion();
             await Navigation.PopAsync();
         }
 
@@ -99,9 +99,9 @@ namespace Views
             await Navigation.PopAsync();
         }
 
-        private void CancelAddChampion()
+        private async Task CancelAddChampionAsync()
         {
-            ManagerVM.AddChampion(true);
+            await ManagerVM.AddChampion(true);
             NavigateToBack();
         }
 

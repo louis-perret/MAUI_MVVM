@@ -122,12 +122,13 @@ namespace ViewModel
 			}
 		}
 
-		public void AddChampion(bool isCanceled = false)
+		public async Task AddChampion(bool isCanceled = false)
 		{
 			if (!isCanceled) 
-				DataManager.ChampionsMgr.AddItem(CurrentChampionVM.Modele);
+				await DataManager.ChampionsMgr.AddItem(CurrentChampionVM.Modele);
 			CurrentChampionVM = null;
-		}
+            await LoadChampions();
+        }
 
 		private async Task DeleteChampion(ChampionVM champion)
 		{

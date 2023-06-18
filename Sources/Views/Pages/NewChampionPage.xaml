@@ -15,97 +15,91 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <VerticalStackLayout>
-        <Label Text="Nouveau Champion"/>
-        <Grid RowDefinitions="auto,auto,auto,auto,auto,auto,auto" ColumnDefinitions="auto, *">
-            <Label Text="Nom :"/>
-            <Entry Text="{Binding ManagerVM.CurrentChampionVM.Name}" Placeholder="Name..." Grid.Column="1"/>
+     <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="check.png" Command="{Binding AddChampionCommand}"/>
+    </ContentPage.ToolbarItems>
 
-            <Label Text="Icon : " Grid.Row="1"/>
-            <HorizontalStackLayout Grid.Row="1" Grid.Column="1">
-                <Image Source="{Binding ManagerVM.CurrentChampionVM.Icon, Converter={StaticResource ByteArrayToImageSourceConverter}}"  Grid.Row="1" Grid.Column="1" WidthRequest="50" HeightRequest="50"/>
-                <Button Text="Load Icon" Command="{Binding ShowFilePickerCommand}" CommandParameter="icon"/>
-            </HorizontalStackLayout>
+    <ScrollView>
+        <VerticalStackLayout BindingContext="{Binding ManagerVM.CurrentChampionVM}">
+        <Label Text="Nouveau Champion" FontSize="Title" FontFamily="" FontAttributes="Bold" HorizontalOptions="Center" Margin="10"/>
+        <Grid RowDefinitions="auto,auto,auto,auto,auto,auto,auto" ColumnDefinitions="*, 3*" ColumnSpacing="5" RowSpacing="10" Margin="10, 0,10,0">
+                <Label Text="Nom :" Style="{StaticResource titleCateg}"/>
+                <Entry Text="{Binding Name}" Placeholder="Name..." Grid.Column="1"/>
 
-            <Label Text="Image : " Grid.Row="2"/>
-            <HorizontalStackLayout Grid.Row="2" Grid.Column="1">
-                <Image Source="{Binding ManagerVM.CurrentChampionVM.Image, Converter={StaticResource ByteArrayToImageSourceConverter}}"  WidthRequest="150" HeightRequest="150"/>
-                <Button Text="Load Image" Command="{Binding ShowFilePickerCommand}" CommandParameter="image"/>
-            </HorizontalStackLayout>
-
-
-            <Label Text="Bio :" Grid.Row="3"/>
-            <Editor Text="{Binding ManagerVM.CurrentChampionVM.Bio}" Placeholder="Description..." Grid.Row="3" Grid.Column="1" AutoSize="TextChanges"/>
-
-            <Label Text="Class : " Grid.Row="4"/>
-            <CollectionView SelectionMode="Single" ItemsSource="{Binding ManagerVM.CurrentChampionVM.AllChampionClass}" Grid.Row="4" Grid.Column="1"
-                            SelectedItem="{Binding ManagerVM.CurrentChampionVM.Class}">
-                <CollectionView.ItemsLayout>
-                        <GridItemsLayout Orientation="Vertical"
-                            Span="3" HorizontalItemSpacing="5" VerticalItemSpacing="10"/>
-                </CollectionView.ItemsLayout>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                           <Border StrokeShape="RoundRectangle 40,2,2,2">
-                                <VerticalStackLayout HorizontalOptions="Center">
-                                    <Label 
-                                        Text="{Binding}" HorizontalOptions="Center" FontSize="Subtitle"/>
-                                </VerticalStackLayout>
-                            </Border>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-
-            <Label Text="Caractéristiques :" Grid.Row="5"/>
-            <VerticalStackLayout Grid.Row="5" Grid.Column="1">
-                 <CollectionView ItemsSource="{Binding ManagerVM.CurrentChampionVM.Characteristics}">
-                        <CollectionView.ItemTemplate>
-                            <DataTemplate>
-                                    <Grid ColumnDefinitions="*, auto">
-                                        <Label 
-                                            Text="{Binding Key}" HorizontalOptions="Center"/>
-                                        <Label 
-                                            Text="{Binding Value}" HorizontalOptions="Center" Grid.Column="1"/>
-                                    </Grid>
-                            </DataTemplate>
-                        </CollectionView.ItemTemplate>
-                    </CollectionView>
-
-                <HorizontalStackLayout>
-                    <Entry Text="{Binding ManagerVM.CurrentChampionVM.NameCharacteristics}" Placeholder="Name..."/>
-                    <Entry Text="{Binding ManagerVM.CurrentChampionVM.ValueCharacteristics}" Placeholder="Value..."/>
-                    <Button Text="+" Command="{Binding ManagerVM.CurrentChampionVM.AddCharacteristicsCommand}"/>
+                <Label Text="Icon : " Grid.Row="1" Style="{StaticResource titleCateg}"/>
+                <HorizontalStackLayout Grid.Row="1" Grid.Column="1">
+                    <Image Source="{Binding Icon, Converter={StaticResource ByteArrayToImageSourceConverter}}"  Grid.Row="1" Grid.Column="1" WidthRequest="50" HeightRequest="50"/>
+                    <Button Text="Load Icon" Command="{Binding AppVM.ShowFilePickerCommand, Source={x:Reference AdditionPage}}" CommandParameter="icon" HeightRequest="40" WidthRequest="100" Margin="10"/>
                 </HorizontalStackLayout>
-            </VerticalStackLayout>
 
-             <VerticalStackLayout Grid.Row="6">
-                    <Label Text="Compétences" Margin="0,10,0,0"/>
-                    <Button Text="+" Command="{Binding ShowPopSkillCommand, Source={x:Reference AdditionPage}}"/>
+                <Label Text="Image : " Grid.Row="2" Style="{StaticResource titleCateg}"/>
+                <HorizontalStackLayout Grid.Row="2" Grid.Column="1">
+                    <Image Source="{Binding Image, Converter={StaticResource ByteArrayToImageSourceConverter}}"  WidthRequest="150" HeightRequest="150"/>
+                    <Button Text="Load Image" Command="{Binding AppVM.ShowFilePickerCommand, Source={x:Reference AdditionPage}}" CommandParameter="image" HeightRequest="40" WidthRequest="110"  Margin="10"/>
+                </HorizontalStackLayout>
+
+
+                <Label Text="Bio :" Grid.Row="3" Style="{StaticResource titleCateg}"/>
+                <Editor Text="{Binding Bio}" Placeholder="Description..." Grid.Row="3" Grid.Column="1" AutoSize="TextChanges" MaximumHeightRequest="150"/>
+
+                <Label Text="Class : " Grid.Row="4" Style="{StaticResource titleCateg}"/>
+                <CollectionView SelectionMode="Single" ItemsSource="{Binding AllChampionClass}" Grid.Row="4" Grid.Column="1"
+                                SelectedItem="{Binding Class}">
+                    <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Vertical"
+                                Span="3" HorizontalItemSpacing="5" VerticalItemSpacing="10"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                               <Border StrokeShape="RoundRectangle 40,2,2,2" Stroke="{StaticResource Primary}" StrokeThickness="2">
+                                    <VerticalStackLayout HorizontalOptions="Center" Margin="5,5,5,5">
+                                        <Label
+                                            Text="{Binding}" HorizontalOptions="Center" FontSize="Small"/>
+                                    </VerticalStackLayout>
+                                </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                <Label Text="Caractéristiques :" Grid.Row="5" Style="{StaticResource titleCateg}"/>
+                <VerticalStackLayout Grid.Row="5" Grid.Column="1">
+                     <CollectionView ItemsSource="{Binding Characteristics}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                        <Grid ColumnDefinitions="*, auto, auto" ColumnSpacing="10" Margin="10,0,10,0">
+                                            <Label 
+                                                Text="{Binding Key}" HorizontalOptions="Start"/>
+                                            <Label 
+                                                Text="{Binding Value}" Grid.Column="1"/>
+                                            <ImageButton Grid.Column="2" MaximumWidthRequest="20" HeightRequest="20" Source="remove.png" Command="{Binding AppVM.ManagerVM.CurrentChampionVM.RemoveCharacteristicsCommand, Source={x:Reference AdditionPage}}" CommandParameter="{Binding Key}"/>
+                                        </Grid>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+
+                    <HorizontalStackLayout>
+                        <Entry Text="{Binding  NameCharacteristics}" Placeholder="Name..."/>
+                        <Entry Text="{Binding  ValueCharacteristics}" Placeholder="Value..."/>
+                        <ImageButton Grid.Column="1" MaximumWidthRequest="25" HeightRequest="25" Source="addition.png" Command="{Binding AddCharacteristicsCommand}"/>
+                    </HorizontalStackLayout>
                 </VerticalStackLayout>
-                <ListView Grid.Row="6" Grid.Column="1" ItemsSource="{Binding ManagerVM.CurrentChampionVM.Skills}">
+
+                <VerticalStackLayout Grid.Row="6">
+                    <Label Text="Compétences" Margin="0,10,0,0" Style="{StaticResource titleCateg}"/>
+                    <ImageButton MaximumWidthRequest="25" HeightRequest="25" Source="addition.png" Command="{Binding ShowPopSkillCommand, Source={x:Reference AdditionPage}}"/>
+                </VerticalStackLayout>
+                <ListView Grid.Row="6" Grid.Column="1" ItemsSource="{Binding Skills}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
                                 <Grid ColumnDefinitions="*,auto" ColumnSpacing="10">
                                     <contentviews:SkillCell Name="{Binding Name}" Description="{Binding Description}" Type="{Binding Type}"/>
-                                    <ImageButton Grid.Column="1" MaximumWidthRequest="20" HeightRequest="20" Source="trash.png" Command="{Binding AppVM.ManagerVM.CurrentChampionVM.RemoveSkillCommand, Source={x:Reference AdditionPage}}" CommandParameter="{Binding}"/>
+                                    <ImageButton Grid.Column="1" MaximumWidthRequest="25" HeightRequest="25" Source="remove.png" Command="{Binding AppVM.ManagerVM.CurrentChampionVM.RemoveSkillCommand, Source={x:Reference AdditionPage}}" CommandParameter="{Binding}"/>
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
         </Grid>
-        <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
-            <Button Text="Ajouter">
-                <Button.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding AddChampionCommand}"/>
-                </Button.GestureRecognizers>
-            </Button>
-            <Button Text="Annuler">
-                <Button.GestureRecognizers>
-                    <TapGestureRecognizer Command="{Binding AddChampionCommand}"/>
-                </Button.GestureRecognizers>
-            </Button>
-        </HorizontalStackLayout>
     </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

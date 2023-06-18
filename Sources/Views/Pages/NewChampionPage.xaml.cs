@@ -7,7 +7,6 @@ namespace Views.Pages;
 
 public partial class NewChampionPage : ContentPage
 {
-
     public AppVM AppVM { get; private set; }
     public ICommand ShowPopSkillCommand { get; private set; }
 
@@ -19,7 +18,6 @@ public partial class NewChampionPage : ContentPage
             execute: async () => await ShowPopSkill());
         InitializeComponent();
     }
-
 
     async Task ShowPopSkill()
     {
