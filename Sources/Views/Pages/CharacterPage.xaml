@@ -4,7 +4,7 @@
              x:Class="Views.Pages.CharacterPage"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:contentviews="clr-namespace:Views.ContentViews"
-             Title="CharacterPage"
+             Title="{Binding ManagerVM.CurrentChampionVM.Name}"
              x:Name="CharacterPageBack">
 
     <ContentPage.Resources>
@@ -13,7 +13,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-     <ContentPage.ToolbarItems>
+    <ContentPage.ToolbarItems>
         <ToolbarItem Text="Modifier" Command="{Binding ShowEditChampionPageCommand}"/>
     </ContentPage.ToolbarItems>
 
@@ -38,14 +38,14 @@
 
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                             <Frame BorderColor="Black">
-                                <VerticalStackLayout HorizontalOptions="Center">
+                             <Border Stroke="{StaticResource Primary}" StrokeThickness="2" StrokeShape="RoundRectangle 10">
+                                <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Margin="10">
                                     <Label 
                                         Text="{Binding Key}" HorizontalOptions="Center"/>
                                     <Label 
                                         Text="{Binding Value}" HorizontalOptions="Center"/>
                                 </VerticalStackLayout>
-                            </Frame>
+                            </Border>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
@@ -54,7 +54,7 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                            <contentviews:SkillCell Name="{Binding Name}" Description="{Binding Description}" Type="{Binding Type}"/>
+                                <contentviews:SkillCell Name="{Binding Name}" Description="{Binding Description}" Type="{Binding Type}"/>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>

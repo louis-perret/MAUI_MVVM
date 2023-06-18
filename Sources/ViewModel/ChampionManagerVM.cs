@@ -7,7 +7,7 @@ using Model;
 
 namespace ViewModel
 {
-	public class ChampionManagerVM : INotifyPropertyChanged
+	public class ChampionManagerVM : BaseVM
 	{
 		private ChampionVM _championVM;
 
@@ -85,12 +85,10 @@ namespace ViewModel
             EditCurrentChampionCommand = new Command(
                 execute: () => EditCurrentChampion());
             DeleteChampionCommand = new Command(
-                execute: (object arg) => DeleteChampionAsync(arg as ChampionVM));
+                execute: async (object arg) => await DeleteChampion(arg as ChampionVM));
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected async virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        protected override async void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
 			if (propertyName.Equals(nameof(PageNumber)))
 			{
@@ -98,7 +96,7 @@ namespace ViewModel
                 (SetNextPageCommand as Command).ChangeCanExecute();
                 (SetPreviousPageCommand as Command).ChangeCanExecute();
             }
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+			base.OnPropertyChanged();
         }
 
         private async Task LoadChampions()
@@ -131,7 +129,7 @@ namespace ViewModel
 			CurrentChampionVM = null;
 		}
 
-		private async Task DeleteChampionAsync(ChampionVM champion)
+		private async Task DeleteChampion(ChampionVM champion)
 		{
 			if (champion != null)
 			{

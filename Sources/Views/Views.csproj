@@ -63,6 +63,10 @@
 	  <None Remove="ContentViews\" />
 	  <None Remove="Resources\Images\Icons\" />
 	  <None Remove="Resources\Images\Icons\trash.svg" />
+	  <None Remove="Resources\Images\Icons\addition.svg" />
+	  <None Remove="Resources\Images\Icons\check.svg" />
+	  <None Remove="Resources\Images\Icons\remove.svg" />
+	  <None Remove="Resources\Images\Icons\addition2.svg" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Pages\" />
@@ -80,5 +84,9 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <MauiImage Include="Resources\Images\Icons\trash.svg" />
+	  <MauiImage Include="Resources\Images\Icons\addition.svg" />
+	  <MauiImage Include="Resources\Images\Icons\check.svg" />
+	  <MauiImage Include="Resources\Images\Icons\remove.svg" />
+	  <MauiImage Include="Resources\Images\Icons\addition2.svg" />
 	</ItemGroup>
 </Project>

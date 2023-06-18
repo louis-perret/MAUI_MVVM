@@ -10,7 +10,7 @@ using Model;
 namespace ViewModel;
 
 // All the code in this file is included in all platforms.
-public class ChampionVM : INotifyPropertyChanged
+public class ChampionVM : BaseVM
 {
     private static ObservableCollection<string> _allChampionClass = new ObservableCollection<string>(Enum.GetValues(typeof(ChampionClass)).Cast<ChampionClass>().ToList().Select(c => c.ToString()).ToList());
     public ReadOnlyObservableCollection<string> AllChampionClass { get; private set; } = new ReadOnlyObservableCollection<string>(_allChampionClass);
@@ -106,7 +106,11 @@ public class ChampionVM : INotifyPropertyChanged
     public string NameCharacteristics
     {
         get => _name;
-        set => _name = value;
+        set
+        {
+            _name = value;
+            OnPropertyChanged();
+        }
     }
 
     private string _value = "0";
@@ -114,7 +118,11 @@ public class ChampionVM : INotifyPropertyChanged
     public string ValueCharacteristics
     {
         get => _value;
-        set => _value = value;
+        set
+        {
+            _value = value;
+            OnPropertyChanged();
+        }
     }
 
     public ReadOnlyObservableCollection<KeyValuePair<string, int>> Characteristics { get; private set; }
@@ -158,7 +166,20 @@ public class ChampionVM : INotifyPropertyChanged
         }
 
         AddCharacteristicsCommand = new Command(
-                execute: () => AddCharacteristics());
+                execute: () => AddCharacteristics(),
+                canExecute: () =>
+                {
+                    try
+                    {
+                        Convert.ToInt32(ValueCharacteristics);
+                        return true;
+                    }
+                    catch (Exception)
+                    {
+                        return false;
+                    }
+                });
+
         RemoveCharacteristicsCommand = new Command(
                 execute: (object arg) => RemoveCharacteristics(arg as string));
         EditChampionCommand = new Command(
@@ -170,12 +191,14 @@ public class ChampionVM : INotifyPropertyChanged
         RemoveSkillCommand = new Command(
             execute: (object arg) => RemoveSkill(arg as SkillVM));
     }
-    
-    public event PropertyChangedEventHandler PropertyChanged;
 
-    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
+    protected override void OnPropertyChanged([CallerMemberName] string propertyName = "")
     {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        if (propertyName.Equals(nameof(ValueCharacteristics)))
+        {
+            (AddCharacteristicsCommand as Command).ChangeCanExecute();
+        }
+        base.OnPropertyChanged();
     }
 
     private void AddCharacteristics()

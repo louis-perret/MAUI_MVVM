@@ -4,7 +4,7 @@
              x:Class="Views.Pages.EditingChampionPage"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:contentviews="clr-namespace:Views.ContentViews"
-             Title="EditingChampionPage"
+             Title="Edition"
              x:Name="EditionPage">
 
      <ContentPage.Resources>
@@ -13,30 +13,34 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="check.png" Command="{Binding AppVM.EditChampionCommand, Source={x:Reference EditionPage}}"/>
+    </ContentPage.ToolbarItems>
+
     <ScrollView>
         <VerticalStackLayout>
-            <Label Text="Nouveau Champion"/>
-            <Grid RowDefinitions="auto,auto,auto,auto,auto,auto,auto" ColumnDefinitions="auto, *">
-                <Label Text="Nom :"/>
+            <Label Text="Modifier Champion" FontSize="Title" FontFamily="" FontAttributes="Bold" HorizontalOptions="Center" Margin="10"/>
+            <Grid RowDefinitions="auto,auto,auto,auto,auto,auto,auto" ColumnDefinitions="*, 3*" ColumnSpacing="5" RowSpacing="10" Margin="10, 0,10,0">
+                <Label Text="Nom :" Style="{StaticResource titleCateg}"/>
                 <Entry Text="{Binding Name}" Placeholder="Name..." Grid.Column="1"/>
 
-                <Label Text="Icon : " Grid.Row="1"/>
+                <Label Text="Icon : " Grid.Row="1" Style="{StaticResource titleCateg}"/>
                 <HorizontalStackLayout Grid.Row="1" Grid.Column="1">
                     <Image Source="{Binding Icon, Converter={StaticResource ByteArrayToImageSourceConverter}}"  Grid.Row="1" Grid.Column="1" WidthRequest="50" HeightRequest="50"/>
-                    <Button Text="Load Icon" Command="{Binding AppVM.ShowFilePickerCommand, Source={x:Reference EditionPage}}" CommandParameter="icon"/>
+                    <Button Text="Load Icon" Command="{Binding AppVM.ShowFilePickerCommand, Source={x:Reference EditionPage}}" CommandParameter="icon" HeightRequest="40" WidthRequest="100" Margin="10"/>
                 </HorizontalStackLayout>
 
-                <Label Text="Image : " Grid.Row="2"/>
+                <Label Text="Image : " Grid.Row="2" Style="{StaticResource titleCateg}"/>
                 <HorizontalStackLayout Grid.Row="2" Grid.Column="1">
                     <Image Source="{Binding Image, Converter={StaticResource ByteArrayToImageSourceConverter}}"  WidthRequest="150" HeightRequest="150"/>
-                    <Button Text="Load Image" Command="{Binding AppVM.ShowFilePickerCommand, Source={x:Reference EditionPage}}" CommandParameter="image"/>
+                    <Button Text="Load Image" Command="{Binding AppVM.ShowFilePickerCommand, Source={x:Reference EditionPage}}" CommandParameter="image" HeightRequest="40" WidthRequest="110"  Margin="10"/>
                 </HorizontalStackLayout>
 
 
-                <Label Text="Bio :" Grid.Row="3"/>
-                <Editor Text="{Binding Bio}" Placeholder="Description..." Grid.Row="3" Grid.Column="1" AutoSize="TextChanges"/>
+                <Label Text="Bio :" Grid.Row="3" Style="{StaticResource titleCateg}"/>
+                <Editor Text="{Binding Bio}" Placeholder="Description..." Grid.Row="3" Grid.Column="1" AutoSize="TextChanges" MaximumHeightRequest="150"/>
 
-                <Label Text="Class : " Grid.Row="4"/>
+                <Label Text="Class : " Grid.Row="4" Style="{StaticResource titleCateg}"/>
                 <CollectionView SelectionMode="Single" ItemsSource="{Binding AllChampionClass}" Grid.Row="4" Grid.Column="1"
                                 SelectedItem="{Binding Class}">
                     <CollectionView.ItemsLayout>
@@ -45,16 +49,16 @@
                     </CollectionView.ItemsLayout>
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
-                               <Border StrokeShape="RoundRectangle 40,2,2,2">
-                                    <VerticalStackLayout HorizontalOptions="Center">
-                                        <Label 
-                                            Text="{Binding}" HorizontalOptions="Center" FontSize="Subtitle"/>
+                               <Border StrokeShape="RoundRectangle 40,2,2,2" Stroke="{StaticResource Primary}" StrokeThickness="2">
+                                    <VerticalStackLayout HorizontalOptions="Center" Margin="5,5,5,5">
+                                        <Label
+                                            Text="{Binding}" HorizontalOptions="Center" FontSize="Small"/>
                                     </VerticalStackLayout>
                                 </Border>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-                <Label Text="Caractéristiques :" Grid.Row="5"/>
+                <Label Text="Caractéristiques :" Grid.Row="5" Style="{StaticResource titleCateg}"/>
                 <VerticalStackLayout Grid.Row="5" Grid.Column="1">
                      <CollectionView ItemsSource="{Binding Characteristics}">
                             <CollectionView.ItemTemplate>
@@ -64,7 +68,7 @@
                                                 Text="{Binding Key}" HorizontalOptions="Start"/>
                                             <Label 
                                                 Text="{Binding Value}" Grid.Column="1"/>
-                                            <ImageButton Grid.Column="2" MaximumWidthRequest="20" HeightRequest="20" Source="trash.png" Command="{Binding AppVM.ManagerVM.CurrentChampionVM.CopyForEdition.RemoveCharacteristicsCommand, Source={x:Reference EditionPage}}" CommandParameter="{Binding Key}"/>
+                                            <ImageButton Grid.Column="2" MaximumWidthRequest="20" HeightRequest="20" Source="remove.png" Command="{Binding AppVM.ManagerVM.CurrentChampionVM.CopyForEdition.RemoveCharacteristicsCommand, Source={x:Reference EditionPage}}" CommandParameter="{Binding Key}"/>
                                         </Grid>
                                 </DataTemplate>
                             </CollectionView.ItemTemplate>
@@ -73,13 +77,13 @@
                     <HorizontalStackLayout>
                         <Entry Text="{Binding  NameCharacteristics}" Placeholder="Name..."/>
                         <Entry Text="{Binding  ValueCharacteristics}" Placeholder="Value..."/>
-                        <Button Text="+" Command="{Binding AddCharacteristicsCommand}"/>
+                        <ImageButton Grid.Column="1" MaximumWidthRequest="25" HeightRequest="25" Source="addition.png" Command="{Binding AddCharacteristicsCommand}"/>
                     </HorizontalStackLayout>
                 </VerticalStackLayout>
 
                 <VerticalStackLayout Grid.Row="6">
-                    <Label Text="Compétences" Margin="0,10,0,0"/>
-                    <Button Text="+" Command="{Binding ShowPopSkillCommand, Source={x:Reference EditionPage}}"/>
+                    <Label Text="Compétences" Margin="0,10,0,0" Style="{StaticResource titleCateg}"/>
+                    <ImageButton MaximumWidthRequest="25" HeightRequest="25" Source="addition.png" Command="{Binding ShowPopSkillCommand, Source={x:Reference EditionPage}}"/>
                 </VerticalStackLayout>
                 <ListView Grid.Row="6" Grid.Column="1" ItemsSource="{Binding Skills}">
                     <ListView.ItemTemplate>
@@ -87,7 +91,7 @@
                             <ViewCell>
                                 <Grid ColumnDefinitions="*,auto" ColumnSpacing="10">
                                     <contentviews:SkillCell Name="{Binding Name}" Description="{Binding Description}" Type="{Binding Type}"/>
-                                    <ImageButton Grid.Column="1" MaximumWidthRequest="20" HeightRequest="20" Source="trash.png" Command="{Binding AppVM.ManagerVM.CurrentChampionVM.CopyForEdition.RemoveSkillCommand, Source={x:Reference EditionPage}}" CommandParameter="{Binding}"/>
+                                    <ImageButton Grid.Column="1" MaximumWidthRequest="25" HeightRequest="25" Source="remove.png" Command="{Binding AppVM.ManagerVM.CurrentChampionVM.CopyForEdition.RemoveSkillCommand, Source={x:Reference EditionPage}}" CommandParameter="{Binding}"/>
                                 </Grid>
                             </ViewCell>
                         </DataTemplate>
@@ -95,18 +99,6 @@
                 </ListView>
                 
             </Grid>
-            <HorizontalStackLayout HorizontalOptions="Center" VerticalOptions="Center">
-                <Button Text="Modifier">
-                    <Button.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding AppVM.EditChampionCommand, Source={x:Reference EditionPage}}"/>
-                    </Button.GestureRecognizers>
-                </Button>
-                <Button Text="Annuler">
-                    <Button.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding AppVM.NavigateToBackCommand, Source={x:Reference EditionPage}}"/>
-                    </Button.GestureRecognizers>
-                </Button>
-            </HorizontalStackLayout>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

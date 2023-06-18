@@ -3,18 +3,26 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Views.Pages.CharactersLibraryPage"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             Title="CharactersLibraryPage"
+             Title="Bibliothèque"
              x:Name="LibraryPage">
 
+    <ContentPage.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="{StaticResource Primary2}" StatusBarStyle="LightContent"/>
+    </ContentPage.Behaviors>
+    
      <ContentPage.Resources>
         <ResourceDictionary>
             <toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid RowDefinitions="*,auto">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="addition2.png" Command="{Binding ShowAddChampionPageCommand}"/>
+    </ContentPage.ToolbarItems>
+
+    <Grid RowDefinitions="auto,auto" RowSpacing="20">
         <VerticalStackLayout>
-            <Label Text="Chercher par : "/>
+            <Label Text="Chercher par : " Style="{StaticResource titleCateg}"/>
             <ListView ItemsSource="{Binding ManagerVM.Champions}">
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -50,8 +58,6 @@
                 <Label Text="{Binding ManagerVM.NbNumberMaxPage}" FontSize="Large"/>
             </HorizontalStackLayout>
             <Button Text="&gt;" TextColor="Black" BackgroundColor="{StaticResource Primary}" Command="{Binding ManagerVM.SetNextPageCommand}"/>
-            <Button Text="Ajouter Champion" Command="{Binding ShowAddChampionPageCommand}">
-            </Button>
          </HorizontalStackLayout>
     </Grid>
 </ContentPage>

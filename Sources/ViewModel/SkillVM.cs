@@ -6,7 +6,7 @@ using Model;
 
 namespace ViewModel
 {
-	public class SkillVM : INotifyPropertyChanged
+	public class SkillVM : BaseVM
     {
         private static ObservableCollection<string> _allSkillType = new ObservableCollection<string>(Enum.GetValues(typeof(SkillType)).Cast<SkillType>().ToList().Select(s => s.ToString()).ToList());
         public ReadOnlyObservableCollection<string> AllSkillType { get; private set; } = new ReadOnlyObservableCollection<string>(_allSkillType);
@@ -61,13 +61,6 @@ namespace ViewModel
         public SkillVM(Skill modele)
         {
             Modele = modele;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
