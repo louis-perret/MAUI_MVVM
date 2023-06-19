@@ -198,7 +198,7 @@ public class ChampionVM : BaseVM
         {
             (AddCharacteristicsCommand as Command).ChangeCanExecute();
         }
-        base.OnPropertyChanged();
+        base.OnPropertyChanged(propertyName);
     }
 
     private void AddCharacteristics()
