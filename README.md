@@ -1,200 +1,39 @@
-# prepaLoL
+<h1 align="center">Master-Detail Leagye of Legend</h1>
+
+Cette application vous permet d'accéder à un master-detail listant les champions disponibles au sein du jeu League of Legend.
+
+## ✔️ Fonctionnalités
+
+- [x] Lister les différents champions avec système de pagination
+- [x] Afficher le détail d'un champion (nom, icon, image, description, caractéristiques et skills)
+- [x] Modifier un champion (nom, icon, image, description, caractéristiques et skills) à partir du master comme du detail
+- [x] Ajouter un champion
+- [x] Supprimer un champion
+- [ ] Implémentation d'un MVVM toolkit maison.
+  - [x] Factorisation de l'implémentation de INotifyPropertyChanged
+  - [x] Une BaseVM non générique 
+  - [x] Une BaseVM avec propriété *Model* générique
+  - [ ] Faire vérifier à Marc Chevaldonné
+
+## 🖥️ Stack techniques
+
+- C# ([API reference](https://learn.microsoft.com/fr-fr/dotnet/csharp/))
+- .Net MAUI ([API reference](https://learn.microsoft.com/fr-fr/dotnet/maui/))
+- Visual Studio ([API reference](https://learn.microsoft.com/fr-fr/visualstudio/windows/?view=vs-2022))
+
+## ⚙️ How to run the app ?
+
+> Ouvrer, sous Visual Studio, le fichier sources/LeagueOfLegends.sln, sélectionner comme projet de démarrage le projet Views, puis exécuter l'application.
+
+## Comment j'ai structuré mon application
+
+J'ai utilisé le patron [MVVM](https://learn.microsoft.com/fr-fr/windows/uwp/data-binding/data-binding-and-mvvm) pour architecturer mon application. Ce dernier me permet de découpler ma Vue de mon Modèle en ajoutant un intermédiaire qu'est la ViewModel. Je l'ai utilisé de cette manière :
+- Implémentation de ViewModel dites "Wrapper" servant à envelopper en leur sein, un object du Modèle (pour ChampionVM, ce sera la classe Champion qui sera enveloppée)et exposant à la vue les données contenues dans ce modèle qui lui seront utiles. En effet, pour moi, ce type de ViewModel doit avant répondre aux besoins de la Vue. Pour ce faire, il se peut que je n'ai pas besoin d'exposer toutes les données contenues dans le modèle et même, ma ViewModel peut aussi contenir ses propres données à elles utiles à la fois Vue mais également à elle. Par exemple, ma ChampionVM contient une ObservableList static contenant toutes les classes possibles pour un champion. Cette propriété n'est en aucun cas contenu dans mon Champion modèle puisqu'il n'y a pas d'utilité certaine, cependant, ma vue en a besoin pour l'ajout et l'édition donc ma ViewModel doit lui permettre d'y avoir accès.
+- Implémentation d'une ViewModel applicative. Cette dernière me sert à faire la liaison entre mes Vues et mes ViewModel wrappers en assurant la bonne navigation entre les différentes pages. Ainsi, cela simplifie la gestion de la navigation et des différents passages de paramètres qu'il peut y avoir tout en simplifiant le code behind des vues.
   
-## Enoncé
-Réaliser une application MAUI avec un MVVM "maison". 
-Je vous fournis le modèle, et peut-être quelques vues au fur et à mesure.  
-  
-J'attends de vous :
-- la réalisation d'un toolkit MVVM (bibliothèque de classes),
-- le _wrapping_ des classes du modèle par des VM (à chaque fois que c'est nécessaire),
-- l'utilisation de commandes pour les différentes fonctionnalités,
-- l'utilisation d'une VM _applicative_ (navigation, index, sélection...).
+## 👤 Author
 
-Faites ce que vous pouvez avec, dans l'ordre :
-1. l'affichage de la collection de Champions. La possibilité de naviguer de n en n champions (5 champions par page, ou 10, etc.) et la pagination doivent être gérées. 
-2. Permettez la sélection d'un champion pour le voir dans une page (on n'utilisera que ses propriétés simples (```Name```, ```Bio```, ```Icon```) puis ```LargeImage```).
-3. Ajoutez la gestion des caractéristiques (```Characteristics```).
-4. Ajoutez la gestion de la classe du champion.
-5. Permettez la modification d'un champion existant (depuis la page du champion, et depuis un swipe sur l'item sélectionné dans la collection).
-6. Permettez l'ajout d'un nouveau champion.
-7. Ajoutez la gestion des skills.
-8. Ajoutez la gestion des skins.
+**PERRET Louis**
 
-## Captures d'écrans
-Quelques captures d'écrans comme attendus :  
-<img src="./Documentation/IMG_5744.PNG" width=200/>
-<img src="./Documentation/IMG_5745.PNG" width=200/>
-<img src="./Documentation/IMG_5746.PNG" width=200/>
-<img src="./Documentation/IMG_5747.PNG" width=200/>
-<img src="./Documentation/IMG_5748.PNG" width=200/>
-<img src="./Documentation/IMG_5749.PNG" width=200/>
-<img src="./Documentation/IMG_5750.PNG" width=200/>
-<img src="./Documentation/IMG_5751.PNG" width=200/>
-<img src="./Documentation/IMG_5752.PNG" width=200/>
-
-## Diagramme de classes du modèle
-```mermaid
-classDiagram
-class LargeImage{
-    +/Base64 : string
-}
-class Champion{
-    +/Name : string
-    +/Bio : string
-    +/Icon : string
-    +/Characteristics : Dictionary~string, int~
-    ~ AddSkin(skin : Skin) bool
-    ~ RemoveSkin(skin: Skin) bool
-    + AddSkill(skill: Skill) bool
-    + RemoveSkill(skill: Skill) bool
-    + AddCharacteristics(someCharacteristics : params Tuple~string, int~[])
-    + RemoveCharacteristics(label : string) bool
-    + this~label : string~ : int?
-}
-Champion --> "1" LargeImage : Image
-class ChampionClass{
-    <<enumeration>>
-    Unknown,
-    Assassin,
-    Fighter,
-    Mage,
-    Marksman,
-    Support,
-    Tank,
-}
-Champion --> "1" ChampionClass : Class
-class Skin{
-    +/Name : string    
-    +/Description : string
-    +/Icon : string
-    +/Price : float
-}
-Skin --> "1" LargeImage : Image
-Champion "1" -- "*" Skin 
-class Skill{
-    +/Name : string    
-    +/Description : string
-}
-class SkillType{
-    <<enumeration>>
-    Unknown,
-    Basic,
-    Passive,
-    Ultimate,
-}
-Skill --> "1" SkillType : Type
-Champion --> "*" Skill
-class Rune{
-    +/Name : string    
-    +/Description : string
-}
-Rune --> "1" LargeImage : Image
-class RuneFamily{
-    <<enumeration>>
-    Unknown,
-    Precision,
-    Domination
-}
-Rune --> "1" RuneFamily : Family
-class Category{
-    <<enumeration>>
-    Major,
-    Minor1,
-    Minor2,
-    Minor3,
-    OtherMinor1,
-    OtherMinor2
-}
-class RunePage{
-    +/Name : string
-    +/this[category : Category] : Rune?
-    - CheckRunes(newRuneCategory : Category)
-    - CheckFamilies(cat1 : Category, cat2 : Category) bool?
-    - UpdateMajorFamily(minor : Category, expectedValue : bool)
-}
-RunePage --> "*" Rune : Dictionary~Category,Rune~
-```
-
-## Diagramme de classes des interfaces de gestion de l'accès aux données
-```mermaid
-classDiagram
-direction LR;
-class IGenericDataManager~T~{
-    <<interface>>
-    GetNbItems() Task~int~
-    GetItems(index : int, count : int, orderingPropertyName : string?, descending : bool) Task~IEnumerable~T~~
-    GetNbItemsByName(substring : string)
-    GetItemsByName(substring : string, index : int, count : int, orderingPropertyName : string?, descending : bool) Task~IEnumerable~T~~
-    UpdateItem(oldItem : T, newItem : T) Task~T~~
-    AddItem(item : T) Task~T~
-    DeleteItem(item : T) Task~bool~
-}
-class IChampionsManager{
-    <<interface>>
-    GetNbItemsByCharacteristic(charName : string)
-    GetItemsByCharacteristic(charName : string, index : int, count : int, orderingPropertyName : string?, descending : bool) Task~IEnumerable~Champion?~~
-    GetNbItemsByClass(championClass : ChampionClass)
-    GetItemsByClass(championClass : ChampionClass, index : int, count : int, orderingPropertyName : string?, descending : bool) Task~IEnumerable~Champion?~~
-    GetNbItemsBySkill(skill : Skill?)
-    GetItemsBySkill(skill : Skill?, index : int, count : int, orderingPropertyName : string?, descending : bool) Task~IEnumerable~Champion?~~
-    GetNbItemsBySkill(skill : string)
-    GetItemsBySkill(skill : string, index : int, count : int, orderingPropertyName : string?, descending : bool) Task~IEnumerable~Champion?~~
-    GetNbItemsByRunePage(runePage : RunePage?)
-    GetItemsByRunePage(runePage : RunePage?, index : int, count : int, orderingPropertyName : string?, descending : bool) Task~IEnumerable~Champion?~~
-}
-class ISkinsManager{
-    <<interface>>
-    GetNbItemsByChampion(champion : Champion?)
-    GetItemsByChampion(champion : Champion?, index : int, count : int, orderingPropertyName : string?, descending : bool) Task~IEnumerable~Skin?~~
-}
-class IRunesManager{
-    <<interface>>
-    GetNbItemsByFamily(family : RuneFamily)
-    GetItemsByFamily(family : RuneFamily, index : int, count : int, orderingPropertyName : string?, descending : bool) Task~IEnumerable~Rune?~~
-}
-class IRunePagesManager{
-    <<interface>>
-    GetNbItemsByRune(rune : Rune?)
-    GetItemsByRune(rune : Rune?, index : int, count : int, orderingPropertyName : string?, descending : bool) Task~IEnumerable~RunePage?~~
-    GetNbItemsByChampion(champion : Champion?)
-    GetItemsByChampion(champion : Champion?, index : int, count : int, orderingPropertyName : string?, descending : bool) Task~IEnumerable~RunePage?~~
-}
-
-IGenericDataManager~Champion?~ <|.. IChampionsManager : T--Champion?
-IGenericDataManager~Skin?~ <|.. ISkinsManager : T--Skin?
-IGenericDataManager~Rune?~ <|.. IRunesManager : T--Rune?
-IGenericDataManager~RunePage?~ <|.. IRunePagesManager : T--RunePage?
-class IDataManager{
-    <<interface>>
-}
-IChampionsManager <-- IDataManager : ChampionsMgr
-ISkinsManager <-- IDataManager : SkinsMgr
-IRunesManager <-- IDataManager : RunesMgr
-IRunePagesManager <-- IDataManager : RunePagesMgr
-```
-
-## Diagramme de classes simplifié du Stub
-```mermaid
-classDiagram
-direction TB;
-
-IDataManager <|.. StubData
-
-ChampionsManager ..|> IChampionsManager
-StubData --> ChampionsManager
-
-RunesManager ..|> IRunesManager
-StubData --> RunesManager
-
-RunePagesManager ..|> IRunePagesManager
-StubData --> RunePagesManager
-
-SkinsManager ..|> ISkinsManager
-StubData --> SkinsManager
-
-StubData --> RunesManager
-StubData --> "*" Champion
-StubData --> "*" Rune
-StubData --> "*" RunePages
-StubData --> "*" Skins
-```
+* Github: [@LouisPerret](https://github.com/louis-perret)
+* LinkedIn: [@Louis Perret](https://fr.linkedin.com/in/louis-perret-a67a6321b)
