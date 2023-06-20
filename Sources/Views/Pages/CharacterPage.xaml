@@ -21,7 +21,7 @@
         
         <VerticalStackLayout>
             <Grid>
-                <Image Source="{Binding Image,Converter={StaticResource ByteArrayToImageSourceConverter}}" VerticalOptions="Start" Aspect="AspectFill"/>
+                <Image Source="{Binding Image,Converter={StaticResource ByteArrayToImageSourceConverter}}" VerticalOptions="Start" Aspect="AspectFill" WidthRequest="400" HeightRequest="400"/>
             </Grid>
             <VerticalStackLayout Margin="15">
                 <Grid ColumnDefinitions="auto,*,auto" >

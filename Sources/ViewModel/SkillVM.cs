@@ -6,19 +6,17 @@ using Model;
 
 namespace ViewModel
 {
-	public class SkillVM : BaseVM
+	public class SkillVM : GenericBaseVM<Skill>
     {
         private static ObservableCollection<string> _allSkillType = new ObservableCollection<string>(Enum.GetValues(typeof(SkillType)).Cast<SkillType>().ToList().Select(s => s.ToString()).ToList());
         public ReadOnlyObservableCollection<string> AllSkillType { get; private set; } = new ReadOnlyObservableCollection<string>(_allSkillType);
-
-        internal Skill Modele { get; set; }
 
         public string Type
         {
             get => Modele.Type.ToString();
             set
             {
-                if (Type.Equals(value))
+                if (!Type.Equals(value))
                 {
                     Modele.Type = Enum.GetValues(typeof(SkillType)).Cast<SkillType>().ToList().Where(t => t.ToString() == value).First();
                     OnPropertyChanged();
@@ -53,12 +51,12 @@ namespace ViewModel
             }
         }
 
-        public SkillVM() : this(new Skill("Name", SkillType.Unknown))
+        public SkillVM() : base(new Skill("Name", SkillType.Unknown))
         {
             
         }
 
-        public SkillVM(Skill modele)
+        public SkillVM(Skill modele) : base(modele)
         {
             Modele = modele;
         }

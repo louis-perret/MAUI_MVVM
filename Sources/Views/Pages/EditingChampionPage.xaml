@@ -64,7 +64,7 @@
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                         <Grid ColumnDefinitions="*, auto, auto" ColumnSpacing="10" Margin="10,0,10,0">
-                                            <Label 
+                                            <Label
                                                 Text="{Binding Key}" HorizontalOptions="Start"/>
                                             <Label 
                                                 Text="{Binding Value}" Grid.Column="1"/>

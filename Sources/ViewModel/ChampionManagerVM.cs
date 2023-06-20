@@ -96,7 +96,7 @@ namespace ViewModel
                 (SetNextPageCommand as Command).ChangeCanExecute();
                 (SetPreviousPageCommand as Command).ChangeCanExecute();
             }
-			base.OnPropertyChanged();
+			base.OnPropertyChanged(propertyName);
         }
 
         private async Task LoadChampions()

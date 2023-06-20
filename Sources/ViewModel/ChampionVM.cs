@@ -10,14 +10,12 @@ using Model;
 namespace ViewModel;
 
 // All the code in this file is included in all platforms.
-public class ChampionVM : BaseVM
+public class ChampionVM : GenericBaseVM<Champion>
 {
     private static ObservableCollection<string> _allChampionClass = new ObservableCollection<string>(Enum.GetValues(typeof(ChampionClass)).Cast<ChampionClass>().ToList().Select(c => c.ToString()).ToList());
     public ReadOnlyObservableCollection<string> AllChampionClass { get; private set; } = new ReadOnlyObservableCollection<string>(_allChampionClass);
 
-    private Champion _modele;
-
-    internal Champion Modele
+    override internal Champion Modele
     {
         get => _modele;
         set
@@ -26,7 +24,7 @@ public class ChampionVM : BaseVM
             {
                 _modele = value;
                 InitObservableleCollections();
-                OnPropertyChanged();
+                // OnPropertyChanged();
             }
         }
     }
@@ -153,12 +151,10 @@ public class ChampionVM : BaseVM
     public ICommand AddSkillCommand { get; private set; }
     public ICommand RemoveSkillCommand { get; private set; }
 
-    public ChampionVM(Champion modele = null)
+    public ChampionVM(Champion modele = null) : base(modele)
     {
-        _characteristics = new ObservableCollection<KeyValuePair<string, int>>();
-        Characteristics = new ReadOnlyObservableCollection<KeyValuePair<string, int>>(_characteristics);
-        _skills = new ObservableCollection<SkillVM>();
-        Skills = new ReadOnlyObservableCollection<SkillVM>(_skills);
+       
+        
         if (modele == null) Modele = new Champion("Name");
         else
         {
@@ -287,13 +283,31 @@ public class ChampionVM : BaseVM
 
     private void InitObservableleCollections()
     {
-        _characteristics.Clear();
+        if (_characteristics == null)
+        {
+            _characteristics = new ObservableCollection<KeyValuePair<string, int>>();
+            Characteristics = new ReadOnlyObservableCollection<KeyValuePair<string, int>>(_characteristics);
+        }
+        else
+        {
+            _characteristics.Clear();
+        }
+
         foreach (var c in Modele.Characteristics)
         {
             _characteristics.Add(c);
         }
 
-        _skills.Clear();
+        if (_skills == null)
+        {
+            _skills = new ObservableCollection<SkillVM>();
+            Skills = new ReadOnlyObservableCollection<SkillVM>(_skills);
+        }
+        else
+        {
+            _skills.Clear();
+        }
+
         foreach (var skill in Modele.Skills)
         {
             _skills.Add(new SkillVM(skill));
