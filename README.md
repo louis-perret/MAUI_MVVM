@@ -1,4 +1,4 @@
-<h1 align="center">Master-Detail Leagye of Legend</h1>
+<h1 align="center">Master-Detail League of Legend</h1>
 
 Cette application vous permet d'accéder à un master-detail listant les champions disponibles au sein du jeu League of Legend.
 
