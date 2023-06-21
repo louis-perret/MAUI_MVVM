@@ -3,6 +3,9 @@ using ViewModel;
 
 namespace Views.ContentViews;
 
+/// <summary>
+/// Pop up pour ajouter un skill
+/// </summary>
 public partial class AddSkill : Popup
 {
 	public SkillVM Skill { get; private set; }

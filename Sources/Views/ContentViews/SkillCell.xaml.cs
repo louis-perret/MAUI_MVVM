@@ -2,6 +2,9 @@
 
 namespace Views.ContentViews;
 
+/// <summary>
+/// Cell por afficher un Skill
+/// </summary>
 public partial class SkillCell : ContentView
 {
 	

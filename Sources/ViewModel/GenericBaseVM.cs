@@ -4,11 +4,15 @@ using System.Runtime.CompilerServices;
 
 namespace ViewModel
 {
+    /// <summary>
+    /// Représente une VM wrappant un type du modèle générique
+    /// </summary>
+    /// <typeparam name="T">Type du modèle wrappé</typeparam>
 	public class GenericBaseVM<T> : BaseVM
 	{
         protected T _modele;
 
-        virtual internal T Modele
+        virtual protected internal T Modele
         {
             get => _modele;
             set => _modele = value;

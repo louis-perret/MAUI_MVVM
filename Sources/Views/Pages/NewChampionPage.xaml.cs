@@ -5,9 +5,19 @@ using Views.ContentViews;
 
 namespace Views.Pages;
 
+/// <summary>
+/// Page d'ajout d'un champion
+/// </summary>
 public partial class NewChampionPage : ContentPage
 {
+    /// <summary>
+    /// VM Applicative
+    /// </summary>
     public AppVM AppVM { get; private set; }
+
+    /// <summary>
+    /// Command pour afficher la pop up pour ajouter les skills. Doit être géré dans cette fenêtre et non par la VM applicative.
+    /// </summary>
     public ICommand ShowPopSkillCommand { get; private set; }
 
     public NewChampionPage(AppVM appVM)

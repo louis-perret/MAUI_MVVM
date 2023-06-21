@@ -11,7 +11,7 @@ namespace Views
 	{
 		public ChampionManagerVM ManagerVM { get; set; }
 
-		public INavigation Navigation { get; set; }
+		public INavigation Navigation { get; set; } // Pour gérer la navigation
 
         public ICommand ShowAddChampionPageCommand { get; private set; }
         public ICommand ShowEditChampionPageCommand { get; private set; }

@@ -5,9 +5,19 @@ using Views.ContentViews;
 
 namespace Views.Pages;
 
+/// <summary>
+/// Page d'édition d'un champion
+/// </summary>
 public partial class EditingChampionPage : ContentPage
 {
+    /// <summary>
+    /// VM applicative
+    /// </summary>
     public AppVM AppVM { get; private set; }
+
+    /// <summary>
+    /// Command pour afficher la pop up pour ajouter les skills. Doit être géré dans cette fenêtre et non par la VM applicative.
+    /// </summary>
     public ICommand ShowPopSkillCommand { get; private set; }
 
     public EditingChampionPage(AppVM appVM)
@@ -19,6 +29,10 @@ public partial class EditingChampionPage : ContentPage
         InitializeComponent();
     }
 
+    /// <summary>
+    /// Affiche et récupère le résultat de la pop up
+    /// </summary>
+    /// <returns></returns>
     async Task ShowPopSkill()
     {
         var popup = new AddSkill();

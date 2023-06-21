@@ -9,13 +9,19 @@ using Model;
 
 namespace ViewModel;
 
-// All the code in this file is included in all platforms.
+// ViewModel pour wrapper la classe Champion côté Modèle
 public class ChampionVM : GenericBaseVM<Champion>
 {
-    private static ObservableCollection<string> _allChampionClass = new ObservableCollection<string>(Enum.GetValues(typeof(ChampionClass)).Cast<ChampionClass>().ToList().Select(c => c.ToString()).ToList());
+    /// <summary>
+    /// Toutes les classes que peut posséder un Champion
+    /// </summary>
+    private static ObservableCollection<string> _allChampionClass = new ObservableCollection<string>(Enum.GetValues<ChampionClass>().Select(c => c.ToString()).ToList());
     public ReadOnlyObservableCollection<string> AllChampionClass { get; private set; } = new ReadOnlyObservableCollection<string>(_allChampionClass);
 
-    override internal Champion Modele
+    /// <summary>
+    /// Modèle wrapper
+    /// </summary>
+    override protected internal Champion Modele
     {
         get => _modele;
         set
@@ -42,6 +48,9 @@ public class ChampionVM : GenericBaseVM<Champion>
         }
     }
 
+    /// <summary>
+    /// Je retourne directement le tableau de byte et ma vue se charge de faire la conversion en ImageSource
+    /// </summary>
     public byte[] Image
     {
         get => Convert.FromBase64String(Modele.Image.Base64);
@@ -60,6 +69,9 @@ public class ChampionVM : GenericBaseVM<Champion>
         }
     }
 
+    /// <summary>
+    /// Je retourne directement le tableau de byte et ma vue se charge de faire la conversion en ImageSource
+    /// </summary>
     public byte[] Icon
     {
         get => Convert.FromBase64String(Modele.Icon);
@@ -80,7 +92,7 @@ public class ChampionVM : GenericBaseVM<Champion>
         {
             if (!Class.Equals(value))
             {
-                Modele.Class = Enum.GetValues(typeof(ChampionClass)).Cast<ChampionClass>().ToList().Where(c => c.ToString() == value).First();
+                Modele.Class = Enum.GetValues<ChampionClass>().Where(c => c.ToString() == value).First();
                 OnPropertyChanged();
             }
         }
@@ -99,6 +111,9 @@ public class ChampionVM : GenericBaseVM<Champion>
         }
     }
 
+    /// <summary>
+    /// Nom de la nouvelle caractéristique à ajouter (Ma VM doit répondre aux besoins de la vue)
+    /// </summary>
     private string _name = "";
 
     public string NameCharacteristics
@@ -111,6 +126,9 @@ public class ChampionVM : GenericBaseVM<Champion>
         }
     }
 
+    /// <summary>
+    /// Valeur de la nouvelle caractéristique à ajouter (Ma VM doit répondre aux besoins de la vue)
+    /// </summary>
     private string _value = "0";
 
     public string ValueCharacteristics
@@ -131,6 +149,9 @@ public class ChampionVM : GenericBaseVM<Champion>
 
     private ObservableCollection<SkillVM> _skills;
 
+    /// <summary>
+    /// Copie du champion courant pour l'édition
+    /// </summary>
     public ChampionVM? CopyForEdition { get; private set; }
 
     private bool _isEditing = false;
