@@ -2,6 +2,8 @@ e<h1 align="center">Master-Detail League of Legend</h1>
 
 Cette application vous permet d'accéder à un master-detail listant les champions disponibles au sein du jeu League of Legend.
 
+Mon MVVM maison est disponible sur la branche *Master*. L'utilisation du toolkit n'a pas été réalisée.
+
 ## ✔️ Fonctionnalités
 
 - [x] Lister les différents champions avec système de pagination
@@ -43,7 +45,7 @@ Bref, il est donc très intéressant de l'utiliser.
 - Navigation non fonctionnelle entre mes pages master/detail et ajout/édition d'un champion sous IOS (mais fonctionnelle sous Android !)
 - Utilisation du FilePicker fais crash l'application sous l'émulateur Android Pixel 3 (et non sur l'émulateur Android Pixel 5)
 - Sur la page du detail, le bouton modifier apparaît avec un "+" et non écrit "modifier" sous Android (s'affiche correctement sous IOS). En faite, l'icon du bouton "+" pour l'ajout d'un champion côté master écrase le texte écrit pour mon bouton côté detail et je ne sais pas pourquoi.
-  
+- Binding avec les images et icons fonctionnelles pour l'ajout d'un champion mais non fonctionnelle pour l'édition d'un champion avec le FilePicker.
 ## 👤 Author
 
 **PERRET Louis**
