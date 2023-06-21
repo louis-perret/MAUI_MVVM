@@ -7,13 +7,13 @@ Cette application vous permet d'accéder à un master-detail listant les champio
 - [x] Lister les différents champions avec système de pagination
 - [x] Afficher le détail d'un champion (nom, icon, image, description, caractéristiques et skills)
 - [x] Modifier un champion (nom, icon, image, description, caractéristiques et skills) à partir du master (avec slide vers la gauche) comme du detail (bouton en haut à droite)
-- [x] Ajouter un champion (bouton "+" n haut à droite du master)
-- [x] Supprimer un champion (slide vers la gauche)
+- [x] Ajouter un champion (bouton "+" en haut à droite du master)
+- [x] Supprimer un champion (slide vers la gauche côté master)
 - [x] Implémentation d'un MVVM toolkit maison.
   - [x] Factorisation de l'implémentation de INotifyPropertyChanged
   - [x] Une BaseVM non générique 
   - [x] Une BaseVM avec propriété *Model* générique
-  - [ x Faire vérifier à Marc Chevaldonné
+  - [x] Faire vérifier à Marc Chevaldonné
 
 ## 🖥️ Stack techniques
 
@@ -42,7 +42,7 @@ Bref, il est donc très intéressant de l'utiliser.
 - Problème d'icon qui ne correspond pas toujours au bon champion sous Android
 - Navigation non fonctionnelle entre mes pages master/detail et ajout/édition d'un champion sous IOS (mais fonctionnelle sous Android !)
 - Utilisation du FilePicker fais crash l'application sous l'émulateur Android Pixel 3 (et non sur l'émulateur Android Pixel 5)
-- Sur la page du detail, le bouton modifier apparaît avec un "+" et non écrit "modifier" sous Android (s'affiche correctement sous IOS). En faite, l'icon du bouton "+" pour l'ajout d'un champion côté master écrase le texte écrit pour mon bouton côté detail et je ne sais pas pourqoi.
+- Sur la page du detail, le bouton modifier apparaît avec un "+" et non écrit "modifier" sous Android (s'affiche correctement sous IOS). En faite, l'icon du bouton "+" pour l'ajout d'un champion côté master écrase le texte écrit pour mon bouton côté detail et je ne sais pas pourquoi.
   
 ## 👤 Author
 
